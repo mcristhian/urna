@@ -4,14 +4,54 @@
 Sistema de votação por lista fechada para um parlamento unicamaral. Os votos são destinados aos partidos, então as cadeiras do parlamento são distribuídas proporcionalmente. O partido com o maior número de cadeiras elege seu líder como primeiro-ministro.
 
 ## Entidades
+Administrador
+
+Eleição
+
 Partido
 
 Deputado
 
 Eleitor
 
-## Funcionalidades
+Resultado
 
-- [ ] Cadastro de partidos
+## Funcionalidades/Rotas
+
+### Administrador 
+
+- [x] Cadastrar
+- [ ] Editar
+- [ ] Excluir
+- [ ] Listar todos
+- [ ] Listar um
 - [ ] Login
-- [ ] Cadastro de deputados
+
+### Partido
+
+- [ ] Cadastrar
+- [ ] Editar
+- [ ] Excluir
+- [ ] Listar todos
+- [ ] Listar um
+- [ ] Login
+
+### Deputado
+
+- [ ] Cadastrar
+- [ ] Editar
+- [ ] Excluir
+- [ ] Listar todos do partido
+- [ ] Listar um
+
+### Eleitor
+
+- [ ] Cadastrar
+- [ ] Editar
+- [ ] Excluir
+- [ ] Listar todos da eleição
+- [ ] Listar um
+
+### Resultado
+
+- [ ] Listar resultado
