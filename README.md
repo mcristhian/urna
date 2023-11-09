@@ -51,6 +51,7 @@ Resultado
 - [ ] Excluir
 - [ ] Listar todos da eleição
 - [ ] Listar um
+- [ ] Login
 
 ### Resultado
 
