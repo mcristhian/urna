@@ -21,11 +21,11 @@ Resultado
 ### Administrador 
 
 - [x] Cadastrar
+- [x] Login
 - [ ] Editar
 - [ ] Excluir
 - [ ] Listar todos
 - [ ] Listar um
-- [ ] Login
 
 ### Partido
 
