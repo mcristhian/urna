@@ -24,7 +24,6 @@ const cadastrarAdministrador = async (req, res) => {
 
         return res.status(201).json({ mensagem: 'Administrador cadastrado.' })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' })
     }
 }
@@ -47,7 +46,7 @@ const loginAdministrador = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
-        const token = jwt.sign({id: administrador.id}, process.env.SENHA_JWT, { expiresIn: '1h' })
+        const token = jwt.sign({id_administrador: administrador.id_administrador}, process.env.SENHA_JWT, { expiresIn: '1h' })
 
         const { senha: _, ...administrador_logado } = administrador
 
@@ -58,7 +57,14 @@ const loginAdministrador = async (req, res) => {
 
 }
 
+const listarAdministrador = (req, res) => {
+    const { senha: _, ...administrador } = req.administrador
+    
+    return res.json(administrador)
+}
+
 module.exports = {
     cadastrarAdministrador,
-    loginAdministrador
+    loginAdministrador,
+    listarAdministrador
 }

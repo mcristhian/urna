@@ -22,10 +22,9 @@ Resultado
 
 - [x] Cadastrar
 - [x] Login
+- [x] Listar administrador
 - [ ] Editar
 - [ ] Excluir
-- [ ] Listar todos
-- [ ] Listar um
 
 ### Partido
 
