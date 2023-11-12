@@ -17,8 +17,10 @@ Eleitor
 Resultado
 
 ## Funcionalidades/Rotas
+Conclusão: 3/28 (10,71%)
 
 ### Administrador 
+Responsável pela gestão da eleição.
 
 - [x] Cadastrar
 - [x] Login
@@ -26,7 +28,17 @@ Resultado
 - [ ] Editar
 - [ ] Excluir
 
+### Eleição
+Organiza cada eleição.
+
+- [ ] Cadastrar
+- [ ] Editar
+- [ ] Listar todas
+- [ ] Listar um
+- [ ] Excluir
+
 ### Partido
+Recebe os votos e gestiona os candidatos.
 
 - [ ] Cadastrar
 - [ ] Editar
@@ -36,6 +48,7 @@ Resultado
 - [ ] Login
 
 ### Deputado
+Recebe as cadeiras da câmara.
 
 - [ ] Cadastrar
 - [ ] Editar
@@ -44,6 +57,7 @@ Resultado
 - [ ] Listar um
 
 ### Eleitor
+Vota nos partidos.
 
 - [ ] Cadastrar
 - [ ] Editar
@@ -53,5 +67,6 @@ Resultado
 - [ ] Login
 
 ### Resultado
+Exibe os votos no final da eleição.
 
 - [ ] Listar resultado
