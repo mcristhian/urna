@@ -1,5 +1,5 @@
-const pool = require('../conexao')
 const jwt = require('jsonwebtoken')
+const { listarAdministradorPorIdQuery } = require('../banco/select')
 
 const verificarLogin = async (req, res, next) => {
     const { authorization } = req.headers
@@ -13,9 +13,7 @@ const verificarLogin = async (req, res, next) => {
     try {
         const { id_administrador } = jwt.verify(token, process.env.SENHA_JWT)
 
-        const administrador = await pool('administrador')
-        .where({ id_administrador })
-        .first()
+        const administrador = await listarAdministradorPorIdQuery(id_administrador)
 
         if (!administrador) {
             return res.status(404).json({ mensagem: 'Não autorizado' })

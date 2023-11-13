@@ -1,7 +1,7 @@
 const express = require('express')
 const rotas = express()
 
-const { cadastrarAdministrador, loginAdministrador, listarAdministrador, editarAdministrador, excluirAdministrador } = require('./controladores/administradores')
+const { cadastrarAdministrador, loginAdministrador, listarAdministrador, atualizarAdministrador, excluirAdministrador } = require('./controladores/administradores')
 const verificarCorpoDaRequisicao = require('./intermediarios/verificarCorpoDaRequisicao')
 const esquemaCadastro = require('./validacoes/esquemaCadastro')
 const esquemaLogin = require('./validacoes/esquemaLogin')
@@ -13,7 +13,7 @@ rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLogin), log
 rotas.use(verificarLogin)
 
 rotas.get('/administrador', listarAdministrador)
-rotas.put('/administrador', editarAdministrador)
+rotas.put('/administrador', atualizarAdministrador)
 rotas.delete('/administrador', excluirAdministrador)
 
 module.exports = rotas
