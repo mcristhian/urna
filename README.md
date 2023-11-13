@@ -25,7 +25,7 @@ Responsável pela gestão da eleição.
 - [x] Cadastrar
 - [x] Login
 - [x] Listar administrador
-- [ ] Editar
+- [x] Editar
 - [ ] Excluir
 
 ### Eleição
