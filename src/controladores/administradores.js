@@ -108,9 +108,37 @@ const editarAdministrador = async (req, res) => {
     }
 }
 
+const excluirAdministrador = async (req, res) => {
+    const { id_administrador } = req.administrador
+
+    try {
+        const administrador = await pool('administrador')
+        .where({ id_administrador })
+        .first()
+    
+        if (!administrador) {
+            return res.json({ mensagem: 'Administrador não encontrado' })
+        }
+
+        const administrador_excluido = await pool('administrador')
+        .del()
+        .where({ id_administrador })
+
+        if (administrador_excluido === 0) {
+            return res.json({ mensagem: 'Administrador não excluído.' })
+        }
+
+        return res.json({ mensagem: 'Administrador excluído.' })
+        
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarAdministrador,
     loginAdministrador,
     listarAdministrador,
-    editarAdministrador
+    editarAdministrador,
+    excluirAdministrador
 }

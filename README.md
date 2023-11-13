@@ -26,7 +26,7 @@ Responsável pela gestão da eleição.
 - [x] Login
 - [x] Listar administrador
 - [x] Editar
-- [ ] Excluir
+- [x] Excluir
 
 ### Eleição
 Organiza cada eleição.
