@@ -57,14 +57,60 @@ const loginAdministrador = async (req, res) => {
 
 }
 
-const listarAdministrador = (req, res) => {
+const listarAdministrador = async (req, res) => {
     const { senha: _, ...administrador } = req.administrador
     
     return res.json(administrador)
 }
 
+const editarAdministrador = async (req, res) => {
+    const { id_administrador } = req.administrador
+    const { nome, email } = req.body
+    let { senha } = req.body
+
+    try {
+        const administrador = await pool('administrador')
+        .where({ id_administrador })
+
+        if (!administrador) {
+            return res.status(404).json({ mensagem: 'Administrador não encontrado.' })
+        }
+
+        if (email) {
+            if (email !== administrador.email) {
+                const administrador_com_mesmo_email = await pool('administrador')
+                .where({ email })
+                .first()
+
+                if (administrador_com_mesmo_email) {
+                    return res.json({ mensagem: 'Email indisponível.' })
+                }
+            }
+        }
+
+        if (senha) {
+            senha = await bcrypt.hash(senha, 10)
+            console.log(senha)
+        }
+
+        const administrador_atualizado = await pool('administrador')
+        .update({ nome, email, senha })
+        .where({ id_administrador })
+        
+        if (administrador_atualizado === 0) {
+            return res.json({ mensagem: 'Administrador não atualizado.' })
+        }
+
+        return res.json({ mensagem: 'Administrador atualizado' })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarAdministrador,
     loginAdministrador,
-    listarAdministrador
+    listarAdministrador,
+    editarAdministrador
 }
