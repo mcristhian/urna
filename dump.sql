@@ -12,7 +12,8 @@ create table eleicao(
   id_administrador int references administrador(id_administrador),
   nome text not null,
   votos int,
-  cadeiras int not null
+  cadeiras int not null,
+  finalizada boolean
 );
 
 create table partido(
