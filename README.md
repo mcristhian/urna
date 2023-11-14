@@ -17,7 +17,7 @@ Eleitor
 Resultado
 
 ## Funcionalidades/Rotas
-Conclusão: 5/28 (17,86%)
+Conclusão: 6/28 (21,43%)
 
 ### Administrador 
 Responsável pela gestão da eleição.
@@ -31,7 +31,7 @@ Responsável pela gestão da eleição.
 ### Eleição
 Organiza cada eleição.
 
-- [ ] Cadastrar
+- [x] Cadastrar
 - [ ] Editar
 - [ ] Listar todas
 - [ ] Listar um

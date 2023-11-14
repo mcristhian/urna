@@ -57,7 +57,11 @@ const loginAdministrador = async (req, res) => {
 
 const listarAdministrador = async (req, res) => {
     const { senha: _, ...administrador } = req.administrador
-    
+        
+    if (!administrador) {
+        return res.status(404).json({ mensagem: 'Administrador não encontrado.' })
+    }
+
     return res.json(administrador)
 }
 

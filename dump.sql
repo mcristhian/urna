@@ -13,7 +13,7 @@ create table eleicao(
   nome text not null,
   votos int,
   cadeiras int not null,
-  finalizada boolean
+  finalizada boolean default false
 );
 
 create table partido(
