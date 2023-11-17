@@ -1,5 +1,5 @@
 const { cadastrarEleicaoQuery } = require('../banco/insert')
-const { listarAdministradorPorIdQuery } = require('../banco/select')
+const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery } = require('../banco/select')
 
 const cadastrarEleicao = async (req, res) => {
     const { id_administrador } = req.administrador
@@ -25,6 +25,19 @@ const cadastrarEleicao = async (req, res) => {
     }
 }
 
+const listarEleicoes = async (req, res) => {
+    const { id_administrador } = req.administrador
+
+    try {
+        const eleicoes = await listarEleicoesPorAdministradorQuery(id_administrador)
+
+        return res.json(eleicoes)
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
-    cadastrarEleicao
+    cadastrarEleicao,
+    listarEleicoes
 }
