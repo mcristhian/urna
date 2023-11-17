@@ -20,6 +20,7 @@ const cadastrarEleicao = async (req, res) => {
 
         return res.status(201).json({ mensagem: 'Eleição cadastrada.' })
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }

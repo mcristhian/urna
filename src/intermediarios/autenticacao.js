@@ -22,6 +22,10 @@ const verificarLogin = async (req, res, next) => {
         req.administrador = administrador
         next()
     } catch (error) {
+        if (error.message === 'jwt expired') {
+            return res.status(400).json({ mensagem: 'Não autorizado.'})
+        }
+        
         return res.status(500).json({ mensagem: 'Erro interno do servidor. '})
     }
 }
