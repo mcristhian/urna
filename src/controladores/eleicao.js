@@ -1,5 +1,5 @@
 const { cadastrarEleicaoQuery } = require('../banco/insert')
-const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery } = require('../banco/select')
+const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery, listarEleicaoPorIdQuery } = require('../banco/select')
 
 const cadastrarEleicao = async (req, res) => {
     const { id_administrador } = req.administrador
@@ -37,7 +37,25 @@ const listarEleicoes = async (req, res) => {
     }
 }
 
+const listarEleicao = async (req, res) => {
+    const { id: id_eleicao } = req.params
+    const { id_administrador } = req.administrador
+
+    try {
+        const eleicao = await listarEleicaoPorIdQuery(id_eleicao, id_administrador)
+
+        if (!eleicao) {
+            return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        return res.json(eleicao)
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarEleicao,
-    listarEleicoes
+    listarEleicoes,
+    listarEleicao
 }
