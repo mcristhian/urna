@@ -6,8 +6,9 @@ const verificarCorpoDaRequisicao = require('./intermediarios/verificarCorpoDaReq
 const esquemaCadastro = require('./validacoes/esquemaCadastro')
 const esquemaLogin = require('./validacoes/esquemaLogin')
 const verificarLogin = require('./intermediarios/autenticacao')
-const { cadastrarEleicao, listarEleicoes, listarEleicao } = require('./controladores/eleicao')
+const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao } = require('./controladores/eleicao')
 const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
+const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastro), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLogin), loginAdministrador)
@@ -21,5 +22,6 @@ rotas.delete('/administrador', excluirAdministrador)
 rotas.post('/eleicao', verificarCorpoDaRequisicao(esquemaCadastroEleicao), cadastrarEleicao)
 rotas.get('/eleicao', listarEleicoes)
 rotas.get('/eleicao/:id', listarEleicao)
+rotas.put('/eleicao/:id', verificarCorpoDaRequisicao(esquemaAtualizarEleicao), atualizarEleicao)
 
 module.exports = rotas

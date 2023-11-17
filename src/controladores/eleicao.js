@@ -1,5 +1,6 @@
 const { cadastrarEleicaoQuery } = require('../banco/insert')
 const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery, listarEleicaoPorIdQuery } = require('../banco/select')
+const { atualizarEleicaoQuery } = require('../banco/update')
 
 const cadastrarEleicao = async (req, res) => {
     const { id_administrador } = req.administrador
@@ -54,8 +55,44 @@ const listarEleicao = async (req, res) => {
     }
 }
 
+const atualizarEleicao = async (req, res) => {
+    const { id: id_eleicao } = req.params
+    const { id_administrador } = req.administrador
+    const { nome, cadeiras, finalizada } = req.body
+ 
+    try {
+        if (nome === undefined && cadeiras === undefined && finalizada === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
+        }
+
+        const administrador = await listarAdministradorPorIdQuery(id_administrador)
+
+        if (!administrador) {
+            return res.status(404).json({ mensagem: 'Administrador não encontrado.' })
+        }
+
+        const eleicao = await listarEleicaoPorIdQuery(id_eleicao, id_administrador)
+
+        if (!eleicao) {
+            return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        const eleicaoAtualizada = await atualizarEleicaoQuery(nome, cadeiras, finalizada, id_eleicao, id_administrador)
+
+        if (eleicaoAtualizada === 0) {
+            return res.json({ mensagem: 'Eleição não atualizada.' })
+        }
+
+        return res.json({ mensagem: 'Eleição atualizada.' })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarEleicao,
     listarEleicoes,
-    listarEleicao
+    listarEleicao,
+    atualizarEleicao
 }
