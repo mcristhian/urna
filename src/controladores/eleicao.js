@@ -1,3 +1,4 @@
+const { excluirEleicaoQuery } = require('../banco/delete')
 const { cadastrarEleicaoQuery } = require('../banco/insert')
 const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery, listarEleicaoPorIdQuery } = require('../banco/select')
 const { atualizarEleicaoQuery } = require('../banco/update')
@@ -21,7 +22,6 @@ const cadastrarEleicao = async (req, res) => {
 
         return res.status(201).json({ mensagem: 'Eleição cadastrada.' })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
@@ -85,7 +85,29 @@ const atualizarEleicao = async (req, res) => {
 
         return res.json({ mensagem: 'Eleição atualizada.' })
     } catch (error) {
-        console.log(error.message)
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
+const excluirEleicao = async (req, res) => {
+    const { id: id_eleicao } = req.params
+    const { id_administrador } = req.administrador
+    
+    try {
+        const eleicao = await listarEleicaoPorIdQuery(id_eleicao, id_administrador)
+
+        if (!eleicao) {
+            return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        const eleicaoExcluida = await excluirEleicaoQuery(id_eleicao, id_administrador)
+
+        if (eleicaoExcluida === 0) {
+            return res.json({ mensagem: 'Eleição não excluída.' })
+        }
+
+        return res.json({ mensagem: 'Eleição excluída.' })
+    } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
@@ -94,5 +116,6 @@ module.exports = {
     cadastrarEleicao,
     listarEleicoes,
     listarEleicao,
-    atualizarEleicao
+    atualizarEleicao,
+    excluirEleicao
 }

@@ -114,7 +114,6 @@ const excluirAdministrador = async (req, res) => {
         }
 
         const administrador_excluido = await excluirAdministradorQuery(id_administrador)
-        console.log(administrador_excluido)
 
         if (administrador_excluido === 0) {
             return res.json({ mensagem: 'Administrador não excluído.' })
@@ -123,7 +122,6 @@ const excluirAdministrador = async (req, res) => {
         return res.json({ mensagem: 'Administrador excluído.' })
         
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
