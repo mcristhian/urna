@@ -40,7 +40,7 @@ Organiza cada eleição.
 ### Partido
 Recebe os votos e gestiona os candidatos.
 
-- [ ] Cadastrar
+- [x] Cadastrar
 - [ ] Editar
 - [ ] Excluir
 - [ ] Listar todos

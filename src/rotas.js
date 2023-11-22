@@ -9,20 +9,22 @@ const verificarLogin = require('./intermediarios/autenticacao')
 const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao } = require('./controladores/eleicao')
 const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
 const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
+const { cadastrarPartido } = require('./controladores/partidos')
+const esquemaCadastroPartido = require('./validacoes/esquemaCadastroPartido')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastro), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLogin), loginAdministrador)
 
-rotas.use(verificarLogin)
+rotas.get('/administrador', verificarLogin, listarAdministrador)
+rotas.put('/administrador', verificarLogin, atualizarAdministrador)
+rotas.delete('/administrador', verificarLogin, excluirAdministrador)
 
-rotas.get('/administrador', listarAdministrador)
-rotas.put('/administrador', atualizarAdministrador)
-rotas.delete('/administrador', excluirAdministrador)
+rotas.post('/eleicao', verificarLogin, verificarCorpoDaRequisicao(esquemaCadastroEleicao), cadastrarEleicao)
+rotas.get('/eleicao', verificarLogin, listarEleicoes)
+rotas.get('/eleicao/:id', verificarLogin, listarEleicao)
+rotas.put('/eleicao/:id', verificarLogin, verificarCorpoDaRequisicao(esquemaAtualizarEleicao), atualizarEleicao)
+rotas.delete('/eleicao/:id', verificarLogin, excluirEleicao)
 
-rotas.post('/eleicao', verificarCorpoDaRequisicao(esquemaCadastroEleicao), cadastrarEleicao)
-rotas.get('/eleicao', listarEleicoes)
-rotas.get('/eleicao/:id', listarEleicao)
-rotas.put('/eleicao/:id', verificarCorpoDaRequisicao(esquemaAtualizarEleicao), atualizarEleicao)
-rotas.delete('/eleicao/:id', excluirEleicao)
+rotas.post('/partido', verificarCorpoDaRequisicao(esquemaCadastroPartido), cadastrarPartido)
 
 module.exports = rotas
