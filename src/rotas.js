@@ -5,17 +5,16 @@ const { cadastrarAdministrador, loginAdministrador, listarAdministrador, atualiz
 const verificarCorpoDaRequisicao = require('./intermediarios/verificarCorpoDaRequisicao')
 const esquemaCadastro = require('./validacoes/esquemaCadastro')
 const esquemaLogin = require('./validacoes/esquemaLogin')
-const verificarLogin = require('./intermediarios/autenticacao')
+const { verificarLogin, verificarLoginPartido } = require('./intermediarios/autenticacao')
 const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao } = require('./controladores/eleicao')
 const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
 const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
-const { cadastrarPartido, loginPartido } = require('./controladores/partidos')
+const { cadastrarPartido, loginPartido, listarPartido } = require('./controladores/partidos')
 const esquemaCadastroPartido = require('./validacoes/esquemaCadastroPartido')
 const esquemaLoginPartido = require('./validacoes/esquemaLoginPartido')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastro), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLogin), loginAdministrador)
-
 rotas.get('/administrador', verificarLogin, listarAdministrador)
 rotas.put('/administrador', verificarLogin, atualizarAdministrador)
 rotas.delete('/administrador', verificarLogin, excluirAdministrador)
@@ -28,5 +27,6 @@ rotas.delete('/eleicao/:id', verificarLogin, excluirEleicao)
 
 rotas.post('/partido', verificarCorpoDaRequisicao(esquemaCadastroPartido), cadastrarPartido)
 rotas.post('/partido/login', verificarCorpoDaRequisicao(esquemaLoginPartido), loginPartido)
+rotas.get('/partido', verificarLoginPartido, listarPartido)
 
 module.exports = rotas

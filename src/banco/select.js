@@ -36,11 +36,18 @@ const listarPartidoPorEmailQuery = async (email) => {
     .first()
 }
 
+const listarPartidoPorIdQuery = async (id_partido) => {
+    return pool('partido')
+    .where({ id_partido })
+    .first()
+}
+
 module.exports = {
     listarAdministradorPorIdQuery,
     listarAdministradorPorEmailQuery,
     listarEleicoesPorAdministradorQuery,
     listarEleicaoPorIdQuery,
     listarEleicaoPorIdQueryAlternativa,
-    listarPartidoPorEmailQuery
+    listarPartidoPorEmailQuery,
+    listarPartidoPorIdQuery
 }

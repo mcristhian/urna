@@ -56,7 +56,18 @@ const loginPartido = async (req, res) => {
     }
 }
 
+const listarPartido = async (req, res) => {
+    const { senha: _, ...partido }  = req.partido
+
+    if (!partido) {
+        return res.status(404).json({ mensagem: 'Partido não encontrado.' })
+    }
+
+    return res.json(partido)
+}
+
 module.exports = {
     cadastrarPartido,
-    loginPartido
+    loginPartido,
+    listarPartido
 }
