@@ -19,7 +19,6 @@ create table eleicao(
 create table partido(
 	id_partido serial primary key,
   id_eleicao int references eleicao(id_eleicao),
-  id_lider int,
   nome text not null,
   email text not null unique,
   senha text not null
@@ -29,6 +28,7 @@ create table deputado(
 	id_deputado serial primary key,
   id_partido int references partido(id_partido),
   nome text not null,
+  lider boolean default false, 
   eleito boolean
 );
 
@@ -51,8 +51,3 @@ create table resultado(
   cadeiras int, 
   porcentagem_cadeiras numeric(3,2)
 );
-
-alter table partido
-add constraint fk_deputado
-foreign key (id_lider)
-references deputado (id_deputado);
