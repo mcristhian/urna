@@ -9,7 +9,7 @@ const { verificarLogin, verificarLoginPartido } = require('./intermediarios/aute
 const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao } = require('./controladores/eleicao')
 const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
 const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
-const { cadastrarPartido, loginPartido, listarPartido } = require('./controladores/partidos')
+const { cadastrarPartido, loginPartido, listarPartido, excluirPartido } = require('./controladores/partidos')
 const esquemaCadastroPartido = require('./validacoes/esquemaCadastroPartido')
 const esquemaLoginPartido = require('./validacoes/esquemaLoginPartido')
 
@@ -28,5 +28,6 @@ rotas.delete('/eleicao/:id', verificarLogin, excluirEleicao)
 rotas.post('/partido', verificarCorpoDaRequisicao(esquemaCadastroPartido), cadastrarPartido)
 rotas.post('/partido/login', verificarCorpoDaRequisicao(esquemaLoginPartido), loginPartido)
 rotas.get('/partido', verificarLoginPartido, listarPartido)
+rotas.delete('/partido', verificarLoginPartido, excluirPartido)
 
 module.exports = rotas

@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { cadastrarPartidoQuery } = require("../banco/insert")
-const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorEmailQuery } = require("../banco/select")
+const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorEmailQuery, listarPartidoPorIdQuery } = require("../banco/select")
+const { excluirPartidoQuery } = require('../banco/delete')
 
 const cadastrarPartido = async (req, res) => {
     const { id_eleicao, nome, email, senha } = req.body
@@ -66,8 +67,32 @@ const listarPartido = async (req, res) => {
     return res.json(partido)
 }
 
+const excluirPartido = async (req, res) => {
+    const { id_partido } = req.partido
+
+    try {
+        const partido = await listarPartidoPorIdQuery(id_partido)
+
+        if (!partido) {
+            return res.status(404).json({ mensagem: 'Partido não encontrado.' })
+        }
+
+        const partidoExcluido = await excluirPartidoQuery(id_partido)
+
+        if (partidoExcluido === 0) {
+            return res.status(400).json({ mensagem: 'Partido não excluído.' })
+        }
+
+        return res.json({ mensagem: 'Partido excluído.' })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarPartido,
     loginPartido,
-    listarPartido
+    listarPartido,
+    excluirPartido
 }

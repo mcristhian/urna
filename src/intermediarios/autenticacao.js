@@ -51,6 +51,8 @@ const verificarLoginPartido = async (req, res, next) => {
         req.partido = partido
         next()
     } catch (error) {
+        console.log(error.message)
+
         if (error.message === 'jwt expired') {
             return res.status(400).json({ mensagem: 'Não autorizado.' })
         }
