@@ -19,7 +19,7 @@ const cadastrarAdministrador = async (req, res) => {
         administradorCadastrado = await cadastrarAdministradorQuery(nome, email, senha_criptografada)
 
         if (!administradorCadastrado) {
-            return res.json({ mensagem: 'Administrador não cadastrado.' })
+            return res.status(400).json({ mensagem: 'Administrador não cadastrado.' })
         }
 
         return res.status(201).json({ mensagem: 'Administrador cadastrado.' })
@@ -48,7 +48,7 @@ const loginAdministrador = async (req, res) => {
 
         const { senha: _, ...administrador_logado } = administrador
 
-        return res.json({ administrador: administrador_logado, token })
+        return res.status(200).json({ administrador: administrador_logado, token })
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' })
     }
@@ -62,7 +62,7 @@ const listarAdministrador = async (req, res) => {
         return res.status(404).json({ mensagem: 'Administrador não encontrado.' })
     }
 
-    return res.json(administrador)
+    return res.status(200).json(administrador)
 }
 
 const atualizarAdministrador = async (req, res) => {
@@ -82,7 +82,7 @@ const atualizarAdministrador = async (req, res) => {
                 const administrador_com_mesmo_email = await listarAdministradorPorEmailQuery(email)
 
                 if (administrador_com_mesmo_email) {
-                    return res.json({ mensagem: 'Email indisponível.' })
+                    return res.status(400).json({ mensagem: 'Email indisponível.' })
                 }
             }
         }
@@ -94,10 +94,10 @@ const atualizarAdministrador = async (req, res) => {
         const administrador_atualizado = await atualizarAdministradorQuery(nome, email, senha, id_administrador)
         
         if (administrador_atualizado === 0) {
-            return res.json({ mensagem: 'Administrador não atualizado.' })
+            return res.status(400).json({ mensagem: 'Administrador não atualizado.' })
         }
 
-        return res.json({ mensagem: 'Administrador atualizado' })
+        return res.status(200).json({ mensagem: 'Administrador atualizado' })
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
@@ -110,16 +110,16 @@ const excluirAdministrador = async (req, res) => {
         const administrador = await listarAdministradorPorIdQuery(id_administrador)
     
         if (!administrador) {
-            return res.json({ mensagem: 'Administrador não encontrado' })
+            return res.status(404).json({ mensagem: 'Administrador não encontrado' })
         }
 
         const administrador_excluido = await excluirAdministradorQuery(id_administrador)
 
         if (administrador_excluido === 0) {
-            return res.json({ mensagem: 'Administrador não excluído.' })
+            return res.status(400).json({ mensagem: 'Administrador não excluído.' })
         }
 
-        return res.json({ mensagem: 'Administrador excluído.' })
+        return res.status(200).json({ mensagem: 'Administrador excluído.' })
         
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })

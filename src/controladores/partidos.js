@@ -25,7 +25,7 @@ const cadastrarPartido = async (req, res) => {
     const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, senha_criptografada)
     
     if (partido === 0) {
-        return res.json({ mensagem: 'Partido não cadastrado.' })
+        return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
     }
 
     return res.status(201).json({ mensagem: 'Partido cadastrado.' })
@@ -51,7 +51,7 @@ const loginPartido = async (req, res) => {
 
         const { senha: _, ...partido_logado } = partido
 
-        return res.json({ partido: partido_logado, token })
+        return res.status(200).json({ partido: partido_logado, token })
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
@@ -65,7 +65,7 @@ const listarPartido = async (req, res) => {
         return res.status(404).json({ mensagem: 'Partido não encontrado.' })
     }
 
-    return res.json(partido)
+    return res.status(200).json(partido)
 }
 
 const excluirPartido = async (req, res) => {
@@ -84,9 +84,8 @@ const excluirPartido = async (req, res) => {
             return res.status(400).json({ mensagem: 'Partido não excluído.' })
         }
 
-        return res.json({ mensagem: 'Partido excluído.' })
+        return res.status(200).json({ mensagem: 'Partido excluído.' })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
@@ -121,7 +120,7 @@ const atualizarPartido = async (req, res) => {
             return res.status(400).json({ mensagem: 'Partido não atualizado.' })
         }
 
-        return res.json({ mensagem: 'Partido atualizado.' })
+        return res.status(200).json({ mensagem: 'Partido atualizado.' })
 
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })

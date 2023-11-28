@@ -5,7 +5,7 @@ const verificarLogin = async (req, res, next) => {
     const { authorization } = req.headers
 
     if (!authorization) {
-        return res.status(400).json({ mensagem: 'Não autorizado.' })
+        return res.status(401).json({ mensagem: 'Não autorizado.' })
     }
 
     const token = authorization.split(' ')[1]
@@ -16,14 +16,14 @@ const verificarLogin = async (req, res, next) => {
         const administrador = await listarAdministradorPorIdQuery(id_administrador)
 
         if (!administrador) {
-            return res.status(404).json({ mensagem: 'Não autorizado' })
+            return res.status(401).json({ mensagem: 'Não autorizado' })
         }
 
         req.administrador = administrador
         next()
     } catch (error) {
         if (error.message === 'jwt expired') {
-            return res.status(400).json({ mensagem: 'Não autorizado.'})
+            return res.status(401).json({ mensagem: 'Não autorizado.'})
         }
         
         return res.status(500).json({ mensagem: 'Erro interno do servidor. '})
@@ -34,7 +34,7 @@ const verificarLoginPartido = async (req, res, next) => {
     const { authorization } = req.headers
 
     if (!authorization) {
-        return res.status(400).json({ mensagem: 'Não autorizado.' })
+        return res.status(401).json({ mensagem: 'Não autorizado.' })
     }
 
     const token = authorization.split(' ')[1]
@@ -45,7 +45,7 @@ const verificarLoginPartido = async (req, res, next) => {
         const partido = await listarPartidoPorIdQuery(id_partido)
 
         if (!partido) {
-            return res.status(400).json({ mensagem: 'Não autorizado.' })
+            return res.status(401).json({ mensagem: 'Não autorizado.' })
         }
 
         req.partido = partido
@@ -54,11 +54,11 @@ const verificarLoginPartido = async (req, res, next) => {
         console.log(error.message)
 
         if (error.message === 'jwt expired') {
-            return res.status(400).json({ mensagem: 'Não autorizado.' })
+            return res.status(401).json({ mensagem: 'Não autorizado.' })
         }
 
         if (error.message === 'jwt must be provided') {
-            return res.status(400).json({ mensagem: 'Não autorizado.' })
+            return res.status(401).json({ mensagem: 'Não autorizado.' })
         }
 
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
