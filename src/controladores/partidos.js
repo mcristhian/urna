@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const { cadastrarPartidoQuery } = require("../banco/insert")
 const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorEmailQuery, listarPartidoPorIdQuery } = require("../banco/select")
 const { excluirPartidoQuery } = require('../banco/delete')
+const { atualizarPartidoQuery } = require('../banco/update')
 
 const cadastrarPartido = async (req, res) => {
     const { id_eleicao, nome, email, senha } = req.body
@@ -90,9 +91,47 @@ const excluirPartido = async (req, res) => {
     }
 }
 
+const atualizarPartido = async (req, res) => {
+    const { id_partido } = req.partido
+    const { nome, email } = req.body
+    let { senha } = req.body
+
+    try {
+        const partido = await listarPartidoPorIdQuery(id_partido)
+
+        if (!partido) {
+            return res.status(404).json({ mensagem: 'Partido não encontrado.' })
+        }
+
+        if (email !== partido.email) {
+            const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
+
+            if (partidoComMesmoEmail) {
+                return res.status(400).json({ mensagem: 'Email indisponível.' })
+            }
+        }
+
+        if (senha) {
+            senha = await bcrypt.hash(senha, 10)
+        }
+
+        const partidoAtualizado = await atualizarPartidoQuery(nome, email, senha, id_partido)
+
+        if (partidoAtualizado === 0) {
+            return res.status(400).json({ mensagem: 'Partido não atualizado.' })
+        }
+
+        return res.json({ mensagem: 'Partido atualizado.' })
+
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarPartido,
     loginPartido,
     listarPartido,
-    excluirPartido
+    excluirPartido,
+    atualizarPartido
 }

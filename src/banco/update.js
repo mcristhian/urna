@@ -13,7 +13,14 @@ const atualizarEleicaoQuery = async (nome, cadeiras, finalizada, id_eleicao, id_
     .andWhere({ id_administrador })
 }
 
+const atualizarPartidoQuery = async (nome, email, senha, id_partido) => {
+    return pool('partido')
+    .update({ nome, email, senha })
+    .where({ id_partido })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
-    atualizarEleicaoQuery
+    atualizarEleicaoQuery,
+    atualizarPartidoQuery
 }
