@@ -41,7 +41,7 @@ Organiza cada eleição.
 Recebe os votos e gestiona os candidatos.
 
 - [x] Cadastrar
-- [ ] Editar
+- [x] Editar
 - [x] Excluir
 - [x] Listar um
 - [x] Login
