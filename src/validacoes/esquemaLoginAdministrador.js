@@ -1,6 +1,6 @@
 const joi = require('joi')
 
-const esquemaLogin = joi.object({
+const esquemaLoginAdministrador = joi.object({
     email: joi.string().required().email().messages({
         'any.required': 'O campo email é obrigatório.',
         'string.empty': 'O campo email é obrigatório.',
@@ -12,4 +12,4 @@ const esquemaLogin = joi.object({
     })
 })
 
-module.exports = esquemaLogin
+module.exports = esquemaLoginAdministrador

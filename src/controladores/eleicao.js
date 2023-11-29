@@ -61,10 +61,6 @@ const atualizarEleicao = async (req, res) => {
     const { nome, cadeiras, finalizada } = req.body
  
     try {
-        if (nome === undefined && cadeiras === undefined && finalizada === undefined) {
-            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
-        }
-
         const administrador = await listarAdministradorPorIdQuery(id_administrador)
 
         if (!administrador) {
@@ -75,6 +71,10 @@ const atualizarEleicao = async (req, res) => {
 
         if (!eleicao) {
             return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        if (nome === undefined && cadeiras === undefined && finalizada === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
         }
 
         const eleicaoAtualizada = await atualizarEleicaoQuery(nome, cadeiras, finalizada, id_eleicao, id_administrador)

@@ -20,9 +20,9 @@ const cadastrarPartido = async (req, res) => {
         return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
     }
 
-    const senha_criptografada = await bcrypt.hash(senha, 10)
+    const senhaCriptografada = await bcrypt.hash(senha, 10)
 
-    const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, senha_criptografada)
+    const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, senhaCriptografada)
     
     if (partido === 0) {
         return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
@@ -41,17 +41,17 @@ const loginPartido = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
-        const senha_valida = await bcrypt.compare(senha, partido.senha)
+        const senhaValida = await bcrypt.compare(senha, partido.senha)
 
-        if (!senha_valida) {
+        if (!senhaValida) {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
         const token = jwt.sign({ id_partido: partido.id_partido }, process.env.SENHA_JWT, { expiresIn: '1h' })
 
-        const { senha: _, ...partido_logado } = partido
+        const { senha: _, ...partidoLogado } = partido
 
-        return res.status(200).json({ partido: partido_logado, token })
+        return res.status(200).json({ partido: partidoLogado, token })
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
@@ -102,11 +102,13 @@ const atualizarPartido = async (req, res) => {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
-        if (email !== partido.email) {
-            const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
-
-            if (partidoComMesmoEmail) {
-                return res.status(400).json({ mensagem: 'Email indisponível.' })
+        if (email) {
+            if (email !== partido.email) {
+                const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
+    
+                if (partidoComMesmoEmail) {
+                    return res.status(400).json({ mensagem: 'Email indisponível.' })
+                }
             }
         }
 
@@ -123,6 +125,7 @@ const atualizarPartido = async (req, res) => {
         return res.status(200).json({ mensagem: 'Partido atualizado.' })
 
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }

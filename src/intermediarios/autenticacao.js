@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { listarAdministradorPorIdQuery, listarPartidoPorIdQuery } = require('../banco/select')
 
-const verificarLogin = async (req, res, next) => {
+const verificarLoginAdministrador = async (req, res, next) => {
     const { authorization } = req.headers
 
     if (!authorization) {
@@ -66,6 +66,6 @@ const verificarLoginPartido = async (req, res, next) => {
 }
 
 module.exports = { 
-    verificarLogin,
+    verificarLoginAdministrador,
     verificarLoginPartido
 }

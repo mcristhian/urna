@@ -15,8 +15,8 @@ const cadastrarAdministrador = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email indisponível.' })
         }
 
-        const senha_criptografada = await bcrypt.hash(senha, 10)
-        administradorCadastrado = await cadastrarAdministradorQuery(nome, email, senha_criptografada)
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+        administradorCadastrado = await cadastrarAdministradorQuery(nome, email, senhaCriptografada)
 
         if (!administradorCadastrado) {
             return res.status(400).json({ mensagem: 'Administrador não cadastrado.' })
@@ -38,17 +38,17 @@ const loginAdministrador = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
-        const senha_valida = await bcrypt.compare(senha, administrador.senha)
+        const senhaValida = await bcrypt.compare(senha, administrador.senha)
 
-        if (!senha_valida) {
+        if (!senhaValida) {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
         const token = jwt.sign({id_administrador: administrador.id_administrador}, process.env.SENHA_JWT, { expiresIn: '1h' })
 
-        const { senha: _, ...administrador_logado } = administrador
+        const { senha: _, ...administradorLogado } = administrador
 
-        return res.status(200).json({ administrador: administrador_logado, token })
+        return res.status(200).json({ administrador: administradorLogado, token })
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' })
     }
@@ -79,9 +79,9 @@ const atualizarAdministrador = async (req, res) => {
 
         if (email) {
             if (email !== administrador.email) {
-                const administrador_com_mesmo_email = await listarAdministradorPorEmailQuery(email)
+                const administradorComMesmoEmail = await listarAdministradorPorEmailQuery(email)
 
-                if (administrador_com_mesmo_email) {
+                if (administradorComMesmoEmail) {
                     return res.status(400).json({ mensagem: 'Email indisponível.' })
                 }
             }
@@ -91,9 +91,9 @@ const atualizarAdministrador = async (req, res) => {
             senha = await bcrypt.hash(senha, 10)
         }
 
-        const administrador_atualizado = await atualizarAdministradorQuery(nome, email, senha, id_administrador)
+        const administradorAtualizado = await atualizarAdministradorQuery(nome, email, senha, id_administrador)
         
-        if (administrador_atualizado === 0) {
+        if (administradorAtualizado === 0) {
             return res.status(400).json({ mensagem: 'Administrador não atualizado.' })
         }
 
@@ -113,9 +113,9 @@ const excluirAdministrador = async (req, res) => {
             return res.status(404).json({ mensagem: 'Administrador não encontrado' })
         }
 
-        const administrador_excluido = await excluirAdministradorQuery(id_administrador)
+        const administradorExcluido = await excluirAdministradorQuery(id_administrador)
 
-        if (administrador_excluido === 0) {
+        if (administradorExcluido === 0) {
             return res.status(400).json({ mensagem: 'Administrador não excluído.' })
         }
 
