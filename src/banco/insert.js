@@ -16,8 +16,14 @@ const cadastrarPartidoQuery = async (id_eleicao, nome, email, senha) => {
     .insert({ id_eleicao, nome, email, senha })
 }
 
+const cadastrarDeputadoQuery = async (id_partido, nome, lider) => {
+    return pool('deputado')
+    .insert({ id_partido, nome, lider })
+}
+
 module.exports = {
     cadastrarAdministradorQuery,
     cadastrarEleicaoQuery,
-    cadastrarPartidoQuery
+    cadastrarPartidoQuery,
+    cadastrarDeputadoQuery
 }
