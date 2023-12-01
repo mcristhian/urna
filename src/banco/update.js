@@ -19,8 +19,15 @@ const atualizarPartidoQuery = async (nome, email, senha, id_partido) => {
     .where({ id_partido })
 }
 
+const resetarLideresQuery = async (id_partido) => {
+    return pool('deputado')
+    .update('lider', false)
+    .where({ id_partido })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
-    atualizarPartidoQuery
+    atualizarPartidoQuery,
+    resetarLideresQuery
 }

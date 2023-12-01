@@ -1,5 +1,6 @@
 const { cadastrarDeputadoQuery } = require("../banco/insert")
-const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery } = require("../banco/select")
+const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery, encontrarDeputadoLiderQuery } = require("../banco/select")
+const { resetarLideresQuery } = require("../banco/update")
 
 const cadastrarDeputado = async (req, res) => {
     const { id_partido } = req.partido
@@ -12,6 +13,13 @@ const cadastrarDeputado = async (req, res) => {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
+        if (lider) {
+            const deputadoLider = await encontrarDeputadoLiderQuery(id_partido)
+            if (deputadoLider.length !== 0) {
+                await resetarLideresQuery(id_partido)
+            }
+        }
+
         const { rowCount: deputadoCadastrado } = await cadastrarDeputadoQuery(id_partido, nome, lider)
 
         if (deputadoCadastrado === 0) {
@@ -20,6 +28,7 @@ const cadastrarDeputado = async (req, res) => {
 
         return res.status(200).json({ mensagem: 'Deputado cadastrado. '})
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
