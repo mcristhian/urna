@@ -42,6 +42,13 @@ const listarPartidoPorIdQuery = async (id_partido) => {
     .first()
 }
 
+const listarDeputadoPorIdQuery = async (id_deputado, id_partido) => {
+    return pool('deputado')
+    .where({ id_deputado })
+    .andWhere({ id_partido })
+    .first()
+}
+
 module.exports = {
     listarAdministradorPorIdQuery,
     listarAdministradorPorEmailQuery,
@@ -49,5 +56,6 @@ module.exports = {
     listarEleicaoPorIdQuery,
     listarEleicaoPorIdQueryAlternativa,
     listarPartidoPorEmailQuery,
-    listarPartidoPorIdQuery
+    listarPartidoPorIdQuery,
+    listarDeputadoPorIdQuery
 }
