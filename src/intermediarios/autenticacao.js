@@ -22,8 +22,8 @@ const verificarLoginAdministrador = async (req, res, next) => {
         req.administrador = administrador
         next()
     } catch (error) {
-        if (error.message === 'jwt expired') {
-            return res.status(401).json({ mensagem: 'Não autorizado.'})
+        if (error.message === 'jwt expired' || error.message === 'jwt must be provided' || error.message === 'invalid signature') {
+            return res.status(401).json({ mensagem: 'Não autorizado.' })
         }
         
         return res.status(500).json({ mensagem: 'Erro interno do servidor. '})
@@ -51,13 +51,7 @@ const verificarLoginPartido = async (req, res, next) => {
         req.partido = partido
         next()
     } catch (error) {
-        console.log(error.message)
-
-        if (error.message === 'jwt expired') {
-            return res.status(401).json({ mensagem: 'Não autorizado.' })
-        }
-
-        if (error.message === 'jwt must be provided') {
+        if (error.message === 'jwt expired' || error.message === 'jwt must be provided' || error.message === 'invalid signature') {
             return res.status(401).json({ mensagem: 'Não autorizado.' })
         }
 
