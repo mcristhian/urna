@@ -1,6 +1,6 @@
 const { excluirDeputadoQuery } = require("../banco/delete")
 const { cadastrarDeputadoQuery } = require("../banco/insert")
-const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery, encontrarDeputadoLiderQuery } = require("../banco/select")
+const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery, encontrarDeputadoLiderQuery, listarDeputadosPorPartidoQuery } = require("../banco/select")
 const { resetarLideresQuery } = require("../banco/update")
 
 const cadastrarDeputado = async (req, res) => {
@@ -86,8 +86,27 @@ const excluirDeputado = async (req, res) => {
     }
 }
 
+const listarDeputadosPorPartido = async (req, res) => {
+    const { id_partido } = req.partido
+    
+    try {
+        const partido = await listarPartidoPorIdQuery(id_partido)
+
+        if (!partido) {
+            return res.status(404).json({ mensagem: 'Partido não encontrado.' })
+        }
+
+        const deputados = await listarDeputadosPorPartidoQuery(id_partido)
+
+        return res.status(200).json(deputados)
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarDeputado,
     listarDeputado,
-    excluirDeputado
+    excluirDeputado,
+    listarDeputadosPorPartido
 }
