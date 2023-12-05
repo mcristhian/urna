@@ -17,7 +17,7 @@ Eleitor
 Resultado
 
 ## Funcionalidades/Rotas
-Conclusão: 18/27 (66,67%)
+Conclusão: 19/27 (70,37%)
 
 ### Administrador 
 Responsável pela gestão da eleição.
@@ -52,7 +52,7 @@ Recebe as cadeiras da câmara.
 - [x] Cadastrar
 - [ ] Editar
 - [x] Excluir
-- [ ] Listar todos do partido
+- [x] Listar todos do partido
 - [x] Listar um
 
 ### Eleitor
