@@ -25,9 +25,29 @@ const resetarLideresQuery = async (id_partido) => {
     .where({ id_partido })
 }
 
+const atualizarDeputadoQuery = async (nome, lider, id_deputado, id_partido) => {
+    if (lider) {
+        if (lider === true) {
+            await resetarLideresQuery(id_partido)
+
+            return pool('deputado')
+            .update({ nome })
+            .update('lider', lider)
+            .where({ id_deputado })
+            .andWhere({ id_partido })
+        }
+    }
+    
+    return pool('deputado')
+    .update({ nome })
+    .where({ id_deputado })
+    .andWhere({ id_partido })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
     atualizarPartidoQuery,
-    resetarLideresQuery
+    resetarLideresQuery,
+    atualizarDeputadoQuery,
 }
