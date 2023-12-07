@@ -122,6 +122,10 @@ const atualizarDeputado = async (req, res) => {
             return res.status(404).json({ mensagem: 'Deputado não encontrado.' })
         }
 
+        if (nome === undefined && lider === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
+        }
+
         const deputadoAtualizado = await atualizarDeputadoQuery(nome, lider, id_deputado, id_partido)
 
         if (deputadoAtualizado === 0) {
