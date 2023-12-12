@@ -58,7 +58,7 @@ Recebe as cadeiras da câmara.
 ### Eleitor
 Vota nos partidos.
 
-- [ ] Cadastrar
+- [x] Cadastrar
 - [ ] Editar
 - [ ] Excluir
 - [ ] Listar todos da eleição
