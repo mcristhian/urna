@@ -38,7 +38,7 @@ create table eleitor(
   nome text not null,
   email text not null unique,
   senha text not null,
-  votou boolean
+  votou boolean default false
 );
 
 create table resultado(
