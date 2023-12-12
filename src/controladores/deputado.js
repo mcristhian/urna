@@ -27,7 +27,7 @@ const cadastrarDeputado = async (req, res) => {
             return res.status(400).json({ mensagem: 'Deputado não cadastrado' })
         }
 
-        return res.status(200).json({ mensagem: 'Deputado cadastrado. '})
+        return res.status(200).json({ mensagem: 'Deputado cadastrado.'})
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
