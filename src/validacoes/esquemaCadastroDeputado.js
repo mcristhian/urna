@@ -7,7 +7,7 @@ const esquemaCadastroDeputado = joi.object({
         'string.base': 'O campo nome só aceita palavras.'
     }),
     lider: joi.boolean().messages({
-        'boolean.empty': 'O campo lider é obrigatório.',
+        'boolean.empty': 'O campo lider não pode estar vazio.',
         'boolean.base': 'O campo lider só aceita booleano.'
     })
 })
