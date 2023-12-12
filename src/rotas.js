@@ -19,6 +19,7 @@ const { cadastrarDeputado, listarDeputado, excluirDeputado, listarDeputadosPorPa
 const { esquemaCadastroDeputado } = require('./validacoes/esquemaCadastroDeputado')
 const { esquemaAtualizarDeputado } = require('./validacoes/esquemaAtualizarDeputado')
 const { cadastrarEleitor } = require('./controladores/eleitor')
+const { esquemaCadastroEleitor } = require('./validacoes/esquemaCadastroEleitor')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastroAdministrador), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLoginAdministrador), loginAdministrador)
@@ -44,6 +45,6 @@ rotas.delete('/deputado/:id', verificarLoginPartido, excluirDeputado)
 rotas.get('/deputado', verificarLoginPartido, listarDeputadosPorPartido)
 rotas.put('/deputado/:id', verificarLoginPartido, verificarCorpoDaRequisicao(esquemaAtualizarDeputado), atualizarDeputado)
 
-rotas.post('/eleitor', cadastrarEleitor)
+rotas.post('/eleitor', verificarCorpoDaRequisicao(esquemaCadastroEleitor), cadastrarEleitor)
 
 module.exports = rotas
