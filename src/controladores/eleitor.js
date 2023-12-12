@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const { listarEleitorPorEmailQuery, listarEleicaoPorIdQuery } = require('../banco/select')
+const { listarEleitorPorEmailQuery, listarEleicaoPorIdQuery, listarEleicaoPorIdQueryAlternativa } = require('../banco/select')
 const { cadastrarEleitorQuery } = require('../banco/insert')
 
 const cadastrarEleitor = async (req, res) => {
@@ -12,7 +12,11 @@ const cadastrarEleitor = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email indisponível.' })
         }
 
-        // const eleicao = await listarEleicaoPorIdQuery(id_eleicao)
+        const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+
+        if (!eleicao) {
+            return res.status(400).json({ mensagem: 'Eleição não encontrada.' })
+        }
 
         const senhaCriptografada = await bcrypt.hash(senha, 10)
 
