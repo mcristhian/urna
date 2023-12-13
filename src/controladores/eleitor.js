@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
-const { listarEleitorPorEmailQuery, listarEleicaoPorIdQuery, listarEleicaoPorIdQueryAlternativa } = require('../banco/select')
+const jwt = require('jsonwebtoken')
+const { listarEleitorPorEmailQuery, listarEleicaoPorIdQueryAlternativa } = require('../banco/select')
 const { cadastrarEleitorQuery } = require('../banco/insert')
 
 const cadastrarEleitor = async (req, res) => {
@@ -32,6 +33,35 @@ const cadastrarEleitor = async (req, res) => {
     }
 }
 
+const loginEleitor = async (req, res) => {
+    const { email, senha } = req.body
+
+    try {
+        const eleitor = await listarEleitorPorEmailQuery(email)
+
+        if (!eleitor) {
+            return res.status(404).json({
+                mensagem: 'Eleitor não encontrado.'
+            })
+        }
+
+        const senhaValida = await bcrypt.compare(senha, eleitor.senha)
+
+        if (!senhaValida) {
+            return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
+        }
+
+        const token = jwt.sign({ id_eleitor: eleitor.id_eleitor }, process.env.SENHA_JWT, { expiresIn: '1h' })
+
+        const { senha: _, ...eleitorLogado } = eleitor
+
+        return res.status(200).json({ eleitor: eleitorLogado, token })
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
-    cadastrarEleitor
+    cadastrarEleitor,
+    loginEleitor
 }
