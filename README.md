@@ -59,11 +59,12 @@ Recebe as cadeiras da câmara.
 Vota nos partidos.
 
 - [x] Cadastrar
+- [ ] Login
 - [ ] Editar
 - [ ] Excluir
 - [ ] Listar todos da eleição
 - [ ] Listar um
-- [ ] Login
+- [ ] Votar
 
 ### Resultado
 Exibe os votos no final da eleição.
