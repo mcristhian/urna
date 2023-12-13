@@ -17,7 +17,7 @@ Eleitor
 Resultado
 
 ## Funcionalidades/Rotas
-Conclusão: 21/27 (77,78%)
+Conclusão: 21/28 (75,00%)
 
 ### Administrador 
 Responsável pela gestão da eleição.
