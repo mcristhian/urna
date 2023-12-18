@@ -17,7 +17,7 @@ Eleitor
 Resultado
 
 ## Funcionalidades/Rotas
-Conclusão: 25/31 (80,65%)
+Conclusão: 25/31 (77,42%)
 
 ### Administrador 
 Responsável pela gestão da eleição.
@@ -62,7 +62,7 @@ Vota nos partidos.
 
 - [x] Cadastrar
 - [x] Login
-- [x] Autenticação
+- [ ] Autenticação
 - [ ] Editar
 - [ ] Excluir
 - [ ] Listar todos da eleição
