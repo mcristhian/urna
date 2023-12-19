@@ -63,7 +63,6 @@ const loginEleitor = async (req, res) => {
 
 const listarEleitor = async (req, res) => {
     const { senha: _, ...eleitor } = req.eleitor
-    // const eleitor = req.eleitor
 
     if (!eleitor) {
         return res.status(404).json({ mensagem: 'Eleitor não encontrado.' })
