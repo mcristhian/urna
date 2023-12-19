@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { listarEleitorPorEmailQuery, listarEleicaoPorIdQueryAlternativa } = require('../banco/select')
+const { listarEleitorPorEmailQuery, listarEleicaoPorIdQueryAlternativa, listarEleitorPorIdQuery } = require('../banco/select')
 const { cadastrarEleitorQuery } = require('../banco/insert')
+const { excluirEleitorQuery } = require('../banco/delete')
 
 const cadastrarEleitor = async (req, res) => {
     const { id_eleicao, nome, email, senha, votou } = req.body
@@ -71,8 +72,31 @@ const listarEleitor = async (req, res) => {
     return res.status(200).json(eleitor)
 }
 
+const excluirEleitor = async (req, res) => {
+    const { id_eleitor } = req.eleitor
+
+    try {
+        const eleitor = await listarEleitorPorIdQuery(id_eleitor)
+
+        if (!eleitor) {
+            return res.status(404).json({ mensagem: 'Eleitor não encontrado.' })
+        }
+    
+        const eleitorExcluido = await excluirEleitorQuery(id_eleitor)
+
+        if (eleitorExcluido === 0) {
+            return res.status(400).json({ mensagem: 'Eleitor não excluído.' })
+        }
+    
+        return res.status(200).json({ mensagem: 'Eleitor excluído.' })
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })   
+    }
+}
+
 module.exports = {
     cadastrarEleitor,
     loginEleitor,
-    listarEleitor
+    listarEleitor,
+    excluirEleitor
 }

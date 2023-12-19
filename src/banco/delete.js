@@ -26,9 +26,16 @@ const excluirDeputadoQuery = async (id_deputado, id_partido) => {
     .andWhere({ id_partido })
 }
 
+const excluirEleitorQuery = async (id_eleitor) => {
+    return pool('eleitor')
+    .del()
+    .where({ id_eleitor })
+}
+
 module.exports = {
     excluirAdministradorQuery,
     excluirEleicaoQuery,
     excluirPartidoQuery,
-    excluirDeputadoQuery
+    excluirDeputadoQuery,
+    excluirEleitorQuery
 }
