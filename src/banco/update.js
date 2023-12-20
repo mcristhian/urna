@@ -44,10 +44,17 @@ const atualizarDeputadoQuery = async (nome, lider, id_deputado, id_partido) => {
     .andWhere({ id_partido })
 }
 
+const atualizarEleitorQuery = async (nome, email, senha, id_eleitor) => {
+    return pool('eleitor')
+    .update({ nome, email, senha })
+    .where({ id_eleitor })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
     atualizarPartidoQuery,
     resetarLideresQuery,
     atualizarDeputadoQuery,
+    atualizarEleitorQuery
 }

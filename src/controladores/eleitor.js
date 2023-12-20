@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const { listarEleitorPorEmailQuery, listarEleicaoPorIdQueryAlternativa, listarEleitorPorIdQuery } = require('../banco/select')
 const { cadastrarEleitorQuery } = require('../banco/insert')
 const { excluirEleitorQuery } = require('../banco/delete')
+const { atualizarEleitorQuery } = require('../banco/update')
 
 const cadastrarEleitor = async (req, res) => {
     const { id_eleicao, nome, email, senha, votou } = req.body
@@ -94,9 +95,54 @@ const excluirEleitor = async (req, res) => {
     }
 }
 
+const atualizarEleitor = async (req, res) => {
+    const { id_eleitor } = req.eleitor
+    const { nome, email } = req.body
+    let { senha } = req.body
+
+    try {
+        const eleitor = await listarEleitorPorIdQuery(id_eleitor) 
+
+        if (!eleitor) {
+            return res.status(404).json({ mensagem: 'Eleitor não encontrado.' })
+        }
+    
+        if (nome === undefined && email === undefined && senha === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
+        }
+    
+        if (email) {
+            if (email !== eleitor.email) {
+                const eleitorComMesmoEmail = await listarEleitorPorEmailQuery(email)
+    
+                if (eleitorComMesmoEmail) {
+                    return res.status(400).json({ mensagem: 'Email indisponível.' })
+                }
+            }
+        }
+    
+        if (senha) {
+            senha = await bcrypt.hash(senha, 10)
+        }
+    
+        const eleitorAtualizado = await atualizarEleitorQuery(nome, email, senha, id_eleitor)
+    
+        if (eleitorAtualizado === 0) {
+            return res.status(400).json({ 
+                mensagem: 'Eleitor não atualizado.'
+             })
+        }
+    
+        return res.status(200).json({ mensagem: 'Eleitor atualizado.' })
+    } catch (error) {
+        return re.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarEleitor,
     loginEleitor,
     listarEleitor,
-    excluirEleitor
+    excluirEleitor,
+    atualizarEleitor
 }
