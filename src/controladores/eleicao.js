@@ -1,6 +1,6 @@
 const { excluirEleicaoQuery } = require('../banco/delete')
 const { cadastrarEleicaoQuery } = require('../banco/insert')
-const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery, listarEleicaoPorIdQuery } = require('../banco/select')
+const { listarAdministradorPorIdQuery, listarEleicoesPorAdministradorQuery, listarEleicaoPorIdQuery, listarEleitoresPorEleicaoQuery } = require('../banco/select')
 const { atualizarEleicaoQuery } = require('../banco/update')
 
 const cadastrarEleicao = async (req, res) => {
@@ -112,10 +112,36 @@ const excluirEleicao = async (req, res) => {
     }
 }
 
+const listarEleitoresPorEleicao = async (req, res) => {
+    const { id_administrador } = req.administrador
+    const { id: id_eleicao } = req.params
+
+    try {
+        const administrador = await listarAdministradorPorIdQuery(id_administrador)
+
+        if (!administrador) {
+            return res.status(404).json({ mensagem: 'Administrador da eleição não encontrado.' })
+        }
+
+        const eleicao = await listarEleicaoPorIdQuery(id_eleicao, id_administrador)
+
+        if (!eleicao) {
+            return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        const eleitores = await listarEleitoresPorEleicaoQuery(id_eleicao)
+
+        return res.status(200).json(eleitores)
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
 module.exports = {
     cadastrarEleicao,
     listarEleicoes,
     listarEleicao,
     atualizarEleicao,
-    excluirEleicao
+    excluirEleicao,
+    listarEleitoresPorEleicao
 }

@@ -72,6 +72,12 @@ const listarEleitorPorIdQuery = async (id_eleitor) => {
     .first()
 }
 
+const listarEleitoresPorEleicaoQuery = async (id_eleicao) => {
+    return pool.select('id_eleitor', 'id_eleicao', 'nome', 'email', 'votou')
+    .from('eleitor')
+    .where({ id_eleicao })
+}
+
 module.exports = {
     listarAdministradorPorIdQuery,
     listarAdministradorPorEmailQuery,
@@ -84,5 +90,6 @@ module.exports = {
     encontrarDeputadoLiderQuery,
     listarDeputadosPorPartidoQuery,
     listarEleitorPorEmailQuery,
-    listarEleitorPorIdQuery
+    listarEleitorPorIdQuery,
+    listarEleitoresPorEleicaoQuery
 }
