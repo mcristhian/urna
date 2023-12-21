@@ -36,6 +36,7 @@ Organiza cada eleição.
 - [x] Editar
 - [x] Listar todas
 - [x] Listar um
+- [ ] Listar os eleitores
 - [x] Excluir
 
 ### Partido
@@ -65,7 +66,6 @@ Vota nos partidos.
 - [x] Autenticação
 - [x] Editar
 - [x] Excluir
-- [ ] Listar todos da eleição
 - [x] Listar um
 - [ ] Votar
 
