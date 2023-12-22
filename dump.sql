@@ -21,6 +21,8 @@ create table partido(
   id_eleicao int references eleicao(id_eleicao),
   nome text not null,
   email text not null unique,
+  posicao_economica text not null,
+  posicao_social text not null,
   senha text not null
 );
 
