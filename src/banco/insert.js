@@ -11,9 +11,9 @@ const cadastrarEleicaoQuery = async (id_administrador, nome, cadeiras) => {
     .returning('*')
 }
 
-const cadastrarPartidoQuery = async (id_eleicao, nome, email, senha) => {
+const cadastrarPartidoQuery = async (id_eleicao, nome, email, posicao_economica, posicao_social, senha) => {
     return pool('partido')
-    .insert({ id_eleicao, nome, email, senha })
+    .insert({ id_eleicao, nome, email, posicao_economica, posicao_social, senha })
 }
 
 const cadastrarDeputadoQuery = async (id_partido, nome, lider) => {
