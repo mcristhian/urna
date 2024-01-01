@@ -6,7 +6,7 @@ const { excluirPartidoQuery } = require('../banco/delete')
 const { atualizarPartidoQuery } = require('../banco/update')
 
 const cadastrarPartido = async (req, res) => {
-    const { id_eleicao, nome, email, senha } = req.body
+    const { id_eleicao, nome, email, posicao_economica, posicao_social, senha } = req.body
 
     const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
 
@@ -22,7 +22,7 @@ const cadastrarPartido = async (req, res) => {
 
     const senhaCriptografada = await bcrypt.hash(senha, 10)
 
-    const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, senhaCriptografada)
+    const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, posicao_economica, posicao_social, senhaCriptografada)
     
     if (partido === 0) {
         return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
