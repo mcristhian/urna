@@ -18,6 +18,18 @@ const esquemaCadastroPartido = joi.object({
     'string.email': 'O campo email precisa ter um formato válido.',
     'string.base': 'O campo email só aceita palavras.'
   }),
+  posicao_economica: joi.string().required().valid('esquerda', 'centro-esquerda', 'centro', 'centro-direita', 'direita').messages({
+    'any.required': 'O campo posicao_economica é obrigatório.',
+    'string.empty': 'O campo posicao_economica é obrigatório.',
+    'string.base': 'O campo posicao_economica só aceita palavras.',
+    'any.only': 'Opções válidas para posicao_economica: esquerda, centro-esquerda, centro, centro-direita, direita'
+  }),
+  posicao_social: joi.string().required().valid('esquerda', 'centro-esquerda', 'centro', 'centro-direita', 'direita').messages({
+    'any.required': 'O campo posicao_social é obrigatório.',
+    'string.empty': 'O campo posicao_social é obrigatório.',
+    'string.base': 'O campo posicao_social só aceita palavras.',
+    'any.only': 'Opções válidas para posicao_social: esquerda, centro-esquerda, centro, centro-direita, direita'
+  }),
   senha: joi.string().required().messages({
     'any.required': 'O campo senha é obrigatório.',
     'string.empty': 'O campo senha é obrigatório.',
