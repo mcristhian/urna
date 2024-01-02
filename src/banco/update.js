@@ -13,9 +13,9 @@ const atualizarEleicaoQuery = async (nome, cadeiras, finalizada, id_eleicao, id_
     .andWhere({ id_administrador })
 }
 
-const atualizarPartidoQuery = async (nome, email, senha, id_partido) => {
+const atualizarPartidoQuery = async (nome, email, posicao_economica, posicao_social, senha, id_partido) => {
     return pool('partido')
-    .update({ nome, email, senha })
+    .update({ nome, email, senha, posicao_economica, posicao_social })
     .where({ id_partido })
 }
 
