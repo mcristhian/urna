@@ -106,6 +106,10 @@ const atualizarPartido = async (req, res) => {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
+        if (nome === undefined && email === undefined && posicao_economica === undefined && posicao_social === undefined && senha === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
+        }
+
         if (email) {
             if (email !== partido.email) {
                 const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
