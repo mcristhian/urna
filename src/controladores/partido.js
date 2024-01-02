@@ -8,27 +8,31 @@ const { atualizarPartidoQuery } = require('../banco/update')
 const cadastrarPartido = async (req, res) => {
     const { id_eleicao, nome, email, posicao_economica, posicao_social, senha } = req.body
 
-    const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
-
-    if (partidoComMesmoEmail) {
-        return res.status(400).json({ mensagem: 'Email indisponível'})
-    }
-
-    const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
-
-    if (!eleicao) {
-        return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
-    }
-
-    const senhaCriptografada = await bcrypt.hash(senha, 10)
-
-    const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, posicao_economica, posicao_social, senhaCriptografada)
+    try {
+        const partidoComMesmoEmail = await listarPartidoPorEmailQuery(email)
     
-    if (partido === 0) {
-        return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
+        if (partidoComMesmoEmail) {
+            return res.status(400).json({ mensagem: 'Email indisponível'})
+        }
+    
+        const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+    
+        if (!eleicao) {
+            return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+    
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+    
+        const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, posicao_economica, posicao_social, senhaCriptografada)
+        
+        if (partido === 0) {
+            return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
+        }
+    
+        return res.status(201).json({ mensagem: 'Partido cadastrado.' })
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor.' })        
     }
-
-    return res.status(201).json({ mensagem: 'Partido cadastrado.' })
 }
 
 const loginPartido = async (req, res) => {
