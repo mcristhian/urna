@@ -92,7 +92,7 @@ const excluirPartido = async (req, res) => {
 
 const atualizarPartido = async (req, res) => {
     const { id_partido } = req.partido
-    const { nome, email } = req.body
+    const { nome, email, posicao_economica, posicao_social } = req.body
     let { senha } = req.body
 
     try {
@@ -116,7 +116,7 @@ const atualizarPartido = async (req, res) => {
             senha = await bcrypt.hash(senha, 10)
         }
 
-        const partidoAtualizado = await atualizarPartidoQuery(nome, email, senha, id_partido)
+        const partidoAtualizado = await atualizarPartidoQuery(nome, email, posicao_economica, posicao_social, senha, id_partido)
 
         if (partidoAtualizado === 0) {
             return res.status(400).json({ mensagem: 'Partido não atualizado.' })
