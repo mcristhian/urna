@@ -23,12 +23,13 @@ const { esquemaCadastroEleitor } = require('./validacoes/esquemaCadastroEleitor'
 const esquemaLoginEleitor = require('./validacoes/esquemaLoginEleitor')
 const esquemaAtualizarEleitor = require('./validacoes/esquemaAtualizarEleitor')
 const esquemaAtualizarPartido = require('./validacoes/esquemaAtualizarPartido')
+const esquemaAtualizarAdministrador = require('./validacoes/esquemaAtualizarAdministrador')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastroAdministrador), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLoginAdministrador), loginAdministrador)
 rotas.get('/administrador', verificarLoginAdministrador, listarAdministrador)
 rotas.put('/administrador', verificarLoginAdministrador, atualizarAdministrador)
-rotas.delete('/administrador', verificarLoginAdministrador, excluirAdministrador)
+rotas.delete('/administrador', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaAtualizarAdministrador), excluirAdministrador)
 
 rotas.post('/eleicao', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaCadastroEleicao), cadastrarEleicao)
 rotas.get('/eleicao', verificarLoginAdministrador, listarEleicoes)
