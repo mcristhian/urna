@@ -28,8 +28,8 @@ const esquemaAtualizarAdministrador = require('./validacoes/esquemaAtualizarAdmi
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastroAdministrador), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLoginAdministrador), loginAdministrador)
 rotas.get('/administrador', verificarLoginAdministrador, listarAdministrador)
-rotas.put('/administrador', verificarLoginAdministrador, atualizarAdministrador)
-rotas.delete('/administrador', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaAtualizarAdministrador), excluirAdministrador)
+rotas.put('/administrador', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaAtualizarAdministrador), atualizarAdministrador)
+rotas.delete('/administrador', verificarLoginAdministrador, excluirAdministrador)
 
 rotas.post('/eleicao', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaCadastroEleicao), cadastrarEleicao)
 rotas.get('/eleicao', verificarLoginAdministrador, listarEleicoes)
