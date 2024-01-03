@@ -77,6 +77,10 @@ const atualizarAdministrador = async (req, res) => {
             return res.status(404).json({ mensagem: 'Administrador não encontrado.' })
         }
 
+        if (nome === undefined && email === undefined && senha === undefined) {
+            return res.status(400).json({ mensagem: 'Ao menos um atributo deve ser informado.' })
+        }
+
         if (email) {
             if (email !== administrador.email) {
                 const administradorComMesmoEmail = await listarAdministradorPorEmailQuery(email)
