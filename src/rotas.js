@@ -8,7 +8,7 @@ const { cadastrarAdministrador, loginAdministrador, listarAdministrador, atualiz
 const esquemaCadastroAdministrador = require('./validacoes/esquemaCadastroAdministrador')
 const esquemaLoginAdministrador = require('./validacoes/esquemaLoginAdministrador')
 
-const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao, listarEleitoresPorEleicao } = require('./controladores/eleicao')
+const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao, listarEleitoresPorEleicao, listarPartidosPorEleicao } = require('./controladores/eleicao')
 const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
 const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
 
@@ -37,6 +37,7 @@ rotas.get('/eleicao/:id', verificarLoginAdministrador, listarEleicao)
 rotas.put('/eleicao/:id', verificarLoginAdministrador, verificarCorpoDaRequisicao(esquemaAtualizarEleicao), atualizarEleicao)
 rotas.delete('/eleicao/:id', verificarLoginAdministrador, excluirEleicao)
 rotas.get('/eleicao/:id/eleitores', verificarLoginAdministrador, listarEleitoresPorEleicao)
+rotas.get('/eleicao/:id/partidos', verificarLoginAdministrador, listarPartidosPorEleicao)
 
 rotas.post('/partido', verificarCorpoDaRequisicao(esquemaCadastroPartido), cadastrarPartido)
 rotas.post('/partido/login', verificarCorpoDaRequisicao(esquemaLoginPartido), loginPartido)
