@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { listarAdministradorPorEmailQuery, listarAdministradorPorIdQuery } = require('../banco/select')
 const { atualizarAdministradorQuery } = require('../banco/update')
@@ -15,7 +15,7 @@ const cadastrarAdministrador = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email indisponível.' })
         }
 
-        const senhaCriptografada = await bcrypt.hash(senha, 10)
+        const senhaCriptografada = await bcryptjs.hash(senha, 10)
         administradorCadastrado = await cadastrarAdministradorQuery(nome, email, senhaCriptografada)
 
         if (!administradorCadastrado) {
@@ -24,6 +24,7 @@ const cadastrarAdministrador = async (req, res) => {
 
         return res.status(201).json({ mensagem: 'Administrador cadastrado.' })
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' })
     }
 }
@@ -38,7 +39,7 @@ const loginAdministrador = async (req, res) => {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
         }
 
-        const senhaValida = await bcrypt.compare(senha, administrador.senha)
+        const senhaValida = await bcryptjs.compare(senha, administrador.senha)
 
         if (!senhaValida) {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
@@ -50,6 +51,7 @@ const loginAdministrador = async (req, res) => {
 
         return res.status(200).json({ administrador: administradorLogado, token })
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' })
     }
 
@@ -92,7 +94,7 @@ const atualizarAdministrador = async (req, res) => {
         }
 
         if (senha) {
-            senha = await bcrypt.hash(senha, 10)
+            senha = await bcryptjs.hash(senha, 10)
         }
 
         const administradorAtualizado = await atualizarAdministradorQuery(nome, email, senha, id_administrador)

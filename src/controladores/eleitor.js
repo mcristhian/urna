@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { listarEleitorPorEmailQuery, listarEleicaoPorIdQueryAlternativa, listarEleitorPorIdQuery } = require('../banco/select')
 const { cadastrarEleitorQuery } = require('../banco/insert')
@@ -21,7 +21,7 @@ const cadastrarEleitor = async (req, res) => {
             return res.status(400).json({ mensagem: 'Eleição não encontrada.' })
         }
 
-        const senhaCriptografada = await bcrypt.hash(senha, 10)
+        const senhaCriptografada = await bcryptjs.hash(senha, 10)
 
         const { rowCount: eleitorCadastrado } = await cadastrarEleitorQuery(id_eleicao, nome, email, senhaCriptografada, votou)
 
@@ -47,7 +47,7 @@ const loginEleitor = async (req, res) => {
             })
         }
 
-        const senhaValida = await bcrypt.compare(senha, eleitor.senha)
+        const senhaValida = await bcryptjs.compare(senha, eleitor.senha)
 
         if (!senhaValida) {
             return res.status(400).json({ mensagem: 'Email ou senha inválido(a).' })
@@ -122,7 +122,7 @@ const atualizarEleitor = async (req, res) => {
         }
     
         if (senha) {
-            senha = await bcrypt.hash(senha, 10)
+            senha = await bcryptjs.hash(senha, 10)
         }
     
         const eleitorAtualizado = await atualizarEleitorQuery(nome, email, senha, id_eleitor)
