@@ -1,6 +1,6 @@
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { cadastrarPartidoQuery } = require("../banco/insert")
+const { cadastrarPartidoQuery, cadastrarResultadoDoPartidoQuery } = require("../banco/insert")
 const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorEmailQuery, listarPartidoPorIdQuery } = require("../banco/select")
 const { excluirPartidoQuery } = require('../banco/delete')
 const { atualizarPartidoQuery } = require('../banco/update')
@@ -23,12 +23,13 @@ const cadastrarPartido = async (req, res) => {
     
         const senhaCriptografada = await bcryptjs.hash(senha, 10)
     
-        const { rowCount: partido } = await cadastrarPartidoQuery(id_eleicao, nome, email, posicao_economica, posicao_social, senhaCriptografada)
+        const partido = await cadastrarPartidoQuery(id_eleicao, nome, email, posicao_economica, posicao_social, senhaCriptografada)
         
-        if (partido === 0) {
+        if (partido.length === 0) {
             return res.status(400).json({ mensagem: 'Partido não cadastrado.' })
         }
     
+        await cadastrarResultadoDoPartidoQuery(id_eleicao, partido[0].id_partido, 0, 0, 0, 0, 0)
         return res.status(201).json({ mensagem: 'Partido cadastrado.' })
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })        
