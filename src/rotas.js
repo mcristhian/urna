@@ -24,6 +24,7 @@ const esquemaLoginEleitor = require('./validacoes/esquemaLoginEleitor')
 const esquemaAtualizarEleitor = require('./validacoes/esquemaAtualizarEleitor')
 const esquemaAtualizarPartido = require('./validacoes/esquemaAtualizarPartido')
 const esquemaAtualizarAdministrador = require('./validacoes/esquemaAtualizarAdministrador')
+const { votar } = require('./controladores/resultado')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastroAdministrador), cadastrarAdministrador)
 rotas.post('/administrador/login', verificarCorpoDaRequisicao(esquemaLoginAdministrador), loginAdministrador)
@@ -56,5 +57,7 @@ rotas.post('/eleitor/login', verificarCorpoDaRequisicao(esquemaLoginEleitor), lo
 rotas.get('/eleitor', verificarLoginEleitor, listarEleitor)
 rotas.delete('/eleitor', verificarLoginEleitor, excluirEleitor)
 rotas.put('/eleitor', verificarCorpoDaRequisicao(esquemaAtualizarEleitor), verificarLoginEleitor, atualizarEleitor)
+
+rotas.post('/voto/:id', verificarLoginEleitor, votar)
 
 module.exports = rotas
