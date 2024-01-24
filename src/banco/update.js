@@ -50,11 +50,18 @@ const atualizarEleitorQuery = async (nome, email, senha, id_eleitor) => {
     .where({ id_eleitor })
 }
 
+const registrarVotoQuery = async (id_eleitor) => {
+    return pool('eleitor')
+    .update('votou', true)
+    .where({ id_eleitor })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
     atualizarPartidoQuery,
     resetarLideresQuery,
     atualizarDeputadoQuery,
-    atualizarEleitorQuery
+    atualizarEleitorQuery,
+    registrarVotoQuery
 }
