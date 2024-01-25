@@ -5,25 +5,28 @@ const verificarCorpoDaRequisicao = require('./intermediarios/verificarCorpoDaReq
 const { verificarLoginAdministrador, verificarLoginPartido, verificarLoginEleitor } = require('./intermediarios/autenticacao')
 
 const { cadastrarAdministrador, loginAdministrador, listarAdministrador, atualizarAdministrador, excluirAdministrador } = require('./controladores/administrador')
-const esquemaCadastroAdministrador = require('./validacoes/esquemaCadastroAdministrador')
-const esquemaLoginAdministrador = require('./validacoes/esquemaLoginAdministrador')
+const esquemaCadastroAdministrador = require('./validacoes/administrador/esquemaCadastroAdministrador')
+const esquemaLoginAdministrador = require('./validacoes/administrador/esquemaLoginAdministrador')
+const esquemaAtualizarAdministrador = require('./validacoes/administrador/esquemaAtualizarAdministrador')
 
 const { cadastrarEleicao, listarEleicoes, listarEleicao, atualizarEleicao, excluirEleicao, listarEleitoresPorEleicao, listarPartidosPorEleicao } = require('./controladores/eleicao')
-const { esquemaCadastroEleicao } = require('./validacoes/esquemaCadastroEleicao')
-const { esquemaAtualizarEleicao } = require('./validacoes/esquemaAtualizarEleicao')
+const { esquemaCadastroEleicao } = require('./validacoes/eleicao/esquemaCadastroEleicao')
+const { esquemaAtualizarEleicao } = require('./validacoes/eleicao/esquemaAtualizarEleicao')
 
 const { cadastrarPartido, loginPartido, listarPartido, excluirPartido, atualizarPartido } = require('./controladores/partido')
-const esquemaCadastroPartido = require('./validacoes/esquemaCadastroPartido')
-const esquemaLoginPartido = require('./validacoes/esquemaLoginPartido')
+const esquemaCadastroPartido = require('./validacoes/partido/esquemaCadastroPartido')
+const esquemaLoginPartido = require('./validacoes/partido/esquemaLoginPartido')
+const esquemaAtualizarPartido = require('./validacoes/partido/esquemaAtualizarPartido')
+
 const { cadastrarDeputado, listarDeputado, excluirDeputado, listarDeputadosPorPartido, atualizarDeputado } = require('./controladores/deputado')
-const { esquemaCadastroDeputado } = require('./validacoes/esquemaCadastroDeputado')
-const { esquemaAtualizarDeputado } = require('./validacoes/esquemaAtualizarDeputado')
+const { esquemaCadastroDeputado } = require('./validacoes/deputado/esquemaCadastroDeputado')
+const { esquemaAtualizarDeputado } = require('./validacoes/deputado/esquemaAtualizarDeputado')
+
 const { cadastrarEleitor, loginEleitor, listarEleitor, excluirEleitor, atualizarEleitor } = require('./controladores/eleitor')
-const { esquemaCadastroEleitor } = require('./validacoes/esquemaCadastroEleitor')
-const esquemaLoginEleitor = require('./validacoes/esquemaLoginEleitor')
-const esquemaAtualizarEleitor = require('./validacoes/esquemaAtualizarEleitor')
-const esquemaAtualizarPartido = require('./validacoes/esquemaAtualizarPartido')
-const esquemaAtualizarAdministrador = require('./validacoes/esquemaAtualizarAdministrador')
+const { esquemaCadastroEleitor } = require('./validacoes/eleitor/esquemaCadastroEleitor')
+const esquemaLoginEleitor = require('./validacoes/eleitor/esquemaLoginEleitor')
+const esquemaAtualizarEleitor = require('./validacoes/eleitor/esquemaAtualizarEleitor')
+
 const { votar } = require('./controladores/resultado')
 
 rotas.post('/administrador', verificarCorpoDaRequisicao(esquemaCadastroAdministrador), cadastrarAdministrador)
