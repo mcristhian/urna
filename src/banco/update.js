@@ -56,6 +56,18 @@ const registrarVotoQuery = async (id_eleitor) => {
     .where({ id_eleitor })
 }
 
+const contabilizarVotoQuery = async (id_partido) => {
+    return pool('resultado')
+    .increment('votos')
+    .where({ id_partido })
+}
+
+const contabilizarVotoNaEleicaoQuery = async (id_eleicao) => {
+    return pool('eleicao')
+    .increment('votos')
+    .where({ id_eleicao })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
@@ -63,5 +75,7 @@ module.exports = {
     resetarLideresQuery,
     atualizarDeputadoQuery,
     atualizarEleitorQuery,
-    registrarVotoQuery
+    registrarVotoQuery,
+    contabilizarVotoQuery,
+    contabilizarVotoNaEleicaoQuery
 }
