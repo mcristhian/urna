@@ -68,6 +68,12 @@ const contabilizarVotoNaEleicaoQuery = async (id_eleicao) => {
     .where({ id_eleicao })
 }
 
+const finalizarVotacaoQuery = async (id_eleicao) => {
+    return pool('eleicao')
+    .update('finalizada', true)
+    .where({ id_eleicao })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
@@ -77,5 +83,6 @@ module.exports = {
     atualizarEleitorQuery,
     registrarVotoQuery,
     contabilizarVotoQuery,
-    contabilizarVotoNaEleicaoQuery
+    contabilizarVotoNaEleicaoQuery,
+    finalizarVotacaoQuery
 }
