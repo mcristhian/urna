@@ -1,34 +1,49 @@
-const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery } = require("../banco/select")
-const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery } = require("../banco/update")
+const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery, listarEleitoresPorEleicaoQuery } = require("../banco/select")
+const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery } = require("../banco/update")
 
 const votar = async (req, res) => {
     const { senha: _, ...eleitor } = req.eleitor
     const { id: voto } = req.params
 
     try {
-        const eleicao = await listarEleicaoPorIdQueryAlternativa(eleitor.id_eleicao)
+        const id_eleicao = eleitor.id_eleicao
+        const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
 
         if (!eleicao) {
             return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        let eleicaoFinalizada = eleicao.finalizada
+        if (eleicaoFinalizada) {
+            return res.status(400).json({ mensagem: 'Eleição finalizada.' })
         }
 
         if (eleitor.votou === true) {
             return res.status(400).json({ mensagem: 'Eleitor já registrou seu voto.' })
         }
 
-        const partido = await listarPartidoPorIdEEleicaoQuery(voto, eleitor.id_eleicao)
+        const partido = await listarPartidoPorIdEEleicaoQuery(voto, id_eleicao)
 
         if (!partido) {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
         await contabilizarVotoQuery(voto)
-        await contabilizarVotoNaEleicaoQuery(eleitor.id_eleicao)
+        await contabilizarVotoNaEleicaoQuery(id_eleicao)
         await registrarVotoQuery(eleitor.id_eleitor)
+
+        let numeroDeEleitores = await listarEleitoresPorEleicaoQuery(id_eleicao)
+        numeroDeEleitores = numeroDeEleitores.length
+        
+        let numeroDeVotos = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+        numeroDeVotos = numeroDeVotos.votos
+        
+        if (numeroDeEleitores === numeroDeVotos) {
+            await finalizarVotacaoQuery(id_eleicao)
+        }
 
         return res.status(200).json({ mensagem: 'Voto contabilizado.' })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
