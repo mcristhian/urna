@@ -74,6 +74,22 @@ const finalizarVotacaoQuery = async (id_eleicao) => {
     .where({ id_eleicao })
 }
 
+const atualizarNumeroDeCandidatosNaEleicaoQuery = async (id_eleicao, id_partido, tipo) => {
+    if (tipo === 'adicao') {
+        return pool('resultado')
+        .increment('candidatos')
+        .where({ id_eleicao })
+        .andWhere({ id_partido })
+    }
+    
+    if (tipo === 'exclusao') {
+        return pool('resultado')
+        .decrement('candidatos')
+        .where({ id_eleicao })
+        .andWhere({ id_partido })
+    }
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
@@ -84,5 +100,6 @@ module.exports = {
     registrarVotoQuery,
     contabilizarVotoQuery,
     contabilizarVotoNaEleicaoQuery,
-    finalizarVotacaoQuery
+    finalizarVotacaoQuery,
+    atualizarNumeroDeCandidatosNaEleicaoQuery
 }
