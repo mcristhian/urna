@@ -1,5 +1,5 @@
-const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery, listarEleitoresPorEleicaoQuery } = require("../banco/select")
-const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery } = require("../banco/update")
+const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery, listarEleitoresPorEleicaoQuery, listarResultadoPorPartidoQuery, listarResultadoPorEleicaoQuery } = require("../banco/select")
+const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery, atualizarPorcentagemDeVotosQuerry } = require("../banco/update")
 
 const votar = async (req, res) => {
     const { senha: _, ...eleitor } = req.eleitor
@@ -28,6 +28,8 @@ const votar = async (req, res) => {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
+        const id_partido = partido.id_partido
+
         await contabilizarVotoQuery(voto)
         await contabilizarVotoNaEleicaoQuery(id_eleicao)
         await registrarVotoQuery(eleitor.id_eleitor)
@@ -42,9 +44,23 @@ const votar = async (req, res) => {
             await finalizarVotacaoQuery(id_eleicao)
         }
 
+        await atualizarPorcentagemDeVotos(id_partido, id_eleicao)
+
         return res.status(200).json({ mensagem: 'Voto contabilizado.' })
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
+    }
+}
+
+const atualizarPorcentagemDeVotos = async (id_eleicao) => {
+    const resultados = await listarResultadoPorEleicaoQuery(id_eleicao)
+
+    for (resultado of resultados) {
+        const { votos: votosDoPartido } = await listarResultadoPorPartidoQuery(resultado.id_partido)
+        
+        const { votos: votosTotais } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+
+        await atualizarPorcentagemDeVotosQuerry(votosDoPartido, votosTotais, resultado.id_partido)
     }
 }
 
