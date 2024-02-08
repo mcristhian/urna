@@ -90,6 +90,14 @@ const atualizarNumeroDeCandidatosNaEleicaoQuery = async (id_eleicao, id_partido,
     }
 }
 
+const atualizarPorcentagemDeVotosQuerry = async (votosDoPartido, votosTotais, id_partido) => {
+    const porcentagem_votos = votosDoPartido / votosTotais * 100
+
+    return pool('resultado')
+    .update('porcentagem_votos', porcentagem_votos)
+    .where({ id_partido })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
@@ -101,5 +109,6 @@ module.exports = {
     contabilizarVotoQuery,
     contabilizarVotoNaEleicaoQuery,
     finalizarVotacaoQuery,
-    atualizarNumeroDeCandidatosNaEleicaoQuery
+    atualizarNumeroDeCandidatosNaEleicaoQuery,
+    atualizarPorcentagemDeVotosQuerry
 }
