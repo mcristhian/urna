@@ -91,6 +91,17 @@ const listarPartidoPorIdEEleicaoQuery = async (id_partido, id_eleicao) => {
     .first()
 }
 
+const listarResultadoPorPartidoQuery = async (id_partido) => {
+    return pool('resultado')
+    .where({ id_partido })
+    .first()
+}
+
+const listarResultadoPorEleicaoQuery = async (id_eleicao) => {
+    return pool('resultado')
+    .where({ id_eleicao })
+}
+
 module.exports = {
     listarAdministradorPorIdQuery,
     listarAdministradorPorEmailQuery,
@@ -106,5 +117,7 @@ module.exports = {
     listarEleitorPorIdQuery,
     listarEleitoresPorEleicaoQuery,
     listarPartidosPorEleicaoQuery,
-    listarPartidoPorIdEEleicaoQuery
+    listarPartidoPorIdEEleicaoQuery,
+    listarResultadoPorPartidoQuery,
+    listarResultadoPorEleicaoQuery
 }
