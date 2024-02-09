@@ -49,7 +49,7 @@ create table resultado(
   id_partido int references partido(id_partido),
   candidatos int,
   votos int,
-  porcentagem_votos numeric(3,2),
+  porcentagem_votos numeric(5,2),
   cadeiras int, 
-  porcentagem_cadeiras numeric(3,2)
+  porcentagem_cadeiras numeric(5,2)
 );
