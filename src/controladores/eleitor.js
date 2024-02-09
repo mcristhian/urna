@@ -9,6 +9,12 @@ const cadastrarEleitor = async (req, res) => {
     const { id_eleicao, nome, email, senha, votou } = req.body
 
     try {
+        const { finalizada: eleicaoFinalizada } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+
+        if (eleicaoFinalizada) {
+            return res.status(400).json({ mensagem: 'Eleição finalizada.' })
+        }
+
         const eleitorComMesmoEmail = await listarEleitorPorEmailQuery(email)
 
         if (eleitorComMesmoEmail) {
