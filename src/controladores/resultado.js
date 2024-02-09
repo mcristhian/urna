@@ -28,8 +28,6 @@ const votar = async (req, res) => {
             return res.status(404).json({ mensagem: 'Partido não encontrado.' })
         }
 
-        const id_partido = partido.id_partido
-
         await contabilizarVotoQuery(voto)
         await contabilizarVotoNaEleicaoQuery(id_eleicao)
         await registrarVotoQuery(eleitor.id_eleitor)
@@ -44,7 +42,7 @@ const votar = async (req, res) => {
             await finalizarVotacaoQuery(id_eleicao)
         }
 
-        await atualizarPorcentagemDeVotos(id_partido, id_eleicao)
+        await atualizarPorcentagemDeVotos(id_eleicao)
 
         return res.status(200).json({ mensagem: 'Voto contabilizado.' })
     } catch (error) {
