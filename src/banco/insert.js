@@ -20,6 +20,7 @@ const cadastrarPartidoQuery = async (id_eleicao, nome, email, posicao_economica,
 const cadastrarDeputadoQuery = async (id_partido, nome, lider) => {
     return pool('deputado')
     .insert({ id_partido, nome, lider })
+    .returning('*')
 }
 
 const cadastrarEleitorQuery = async (id_eleicao, nome, email, senha, votou) => {
