@@ -1,7 +1,7 @@
 const { excluirDeputadoQuery } = require("../banco/delete")
 const { cadastrarDeputadoQuery } = require("../banco/insert")
 const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery, encontrarDeputadoLiderQuery, listarDeputadosPorPartidoQuery } = require("../banco/select")
-const { resetarLideresQuery, atualizarDeputadoQuery, atualizarNumeroDeCandidatosNaEleicaoQuery } = require("../banco/update")
+const { resetarLideresQuery, atualizarDeputadoQuery, atualizarNumeroDeCandidatosNaEleicaoQuery, definirDeputadoLider } = require("../banco/update")
 
 const cadastrarDeputado = async (req, res) => {
     const { id_partido } = req.partido
@@ -21,18 +21,23 @@ const cadastrarDeputado = async (req, res) => {
             }
         }
 
-        const { rowCount: deputadoCadastrado } = await cadastrarDeputadoQuery(id_partido, nome, lider)
+        const deputadoCadastrado = await cadastrarDeputadoQuery(id_partido, nome, lider)
+        const id_deputado = deputadoCadastrado[0].id_deputado
 
-        if (deputadoCadastrado === 0) {
+        if (!deputadoCadastrado) {
             return res.status(400).json({ mensagem: 'Deputado não cadastrado' })
         }
 
         const { id_eleicao } = await listarPartidoPorIdQuery(id_partido)
         await atualizarNumeroDeCandidatosNaEleicaoQuery(id_eleicao, id_partido, 'adicao')
 
+        const numeroDeDeputados = await listarDeputadosPorPartidoQuery(id_partido)
+        if (numeroDeDeputados.length === 1 && !lider) {
+            await definirDeputadoLider(id_deputado, id_partido)
+        }
+
         return res.status(200).json({ mensagem: 'Deputado cadastrado.'})
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
@@ -88,7 +93,6 @@ const excluirDeputado = async (req, res) => {
 
         return res.status(200).json({ mensagem: 'Deputado excluído.' })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })
     }
 }
