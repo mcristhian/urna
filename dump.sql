@@ -31,7 +31,7 @@ create table deputado(
   id_partido int references partido(id_partido),
   nome text not null,
   lider boolean default false, 
-  eleito boolean
+  eleito boolean default false
 );
 
 create table eleitor(
