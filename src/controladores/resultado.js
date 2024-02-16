@@ -1,5 +1,5 @@
 const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery, listarEleitoresPorEleicaoQuery, listarResultadoPorPartidoQuery, listarResultadoPorEleicaoQuery } = require("../banco/select")
-const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery, atualizarPorcentagemDeVotosQuerry } = require("../banco/update")
+const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery, atualizarPorcentagemDeVotosQuery } = require("../banco/update")
 
 const votar = async (req, res) => {
     const { senha: _, ...eleitor } = req.eleitor
@@ -58,7 +58,7 @@ const atualizarPorcentagemDeVotos = async (id_eleicao) => {
         
         const { votos: votosTotais } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
 
-        await atualizarPorcentagemDeVotosQuerry(votosDoPartido, votosTotais, resultado.id_partido)
+        await atualizarPorcentagemDeVotosQuery(votosDoPartido, votosTotais, resultado.id_partido)
     }
 }
 

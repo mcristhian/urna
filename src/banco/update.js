@@ -90,7 +90,7 @@ const atualizarNumeroDeCandidatosNaEleicaoQuery = async (id_eleicao, id_partido,
     }
 }
 
-const atualizarPorcentagemDeVotosQuerry = async (votosDoPartido, votosTotais, id_partido) => {
+const atualizarPorcentagemDeVotosQuery = async (votosDoPartido, votosTotais, id_partido) => {
     const porcentagem_votos = votosDoPartido / votosTotais * 100
 
     return pool('resultado')
@@ -117,6 +117,6 @@ module.exports = {
     contabilizarVotoNaEleicaoQuery,
     finalizarVotacaoQuery,
     atualizarNumeroDeCandidatosNaEleicaoQuery,
-    atualizarPorcentagemDeVotosQuerry,
+    atualizarPorcentagemDeVotosQuery,
     definirDeputadoLider
 }
