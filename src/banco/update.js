@@ -90,9 +90,7 @@ const atualizarNumeroDeCandidatosNaEleicaoQuery = async (id_eleicao, id_partido,
     }
 }
 
-const atualizarPorcentagemDeVotosQuery = async (votosDoPartido, votosTotais, id_partido) => {
-    const porcentagem_votos = votosDoPartido / votosTotais * 100
-
+const atualizarPorcentagemDeVotosQuery = async (porcentagem_votos, id_partido) => {
     return pool('resultado')
     .update('porcentagem_votos', porcentagem_votos)
     .where({ id_partido })
@@ -103,6 +101,12 @@ const definirDeputadoLider = async (id_deputado, id_partido) => {
     .update('lider', true)
     .where({ id_deputado })
     .andWhere({ id_partido })
+}
+
+const distribuirCadeirasQuery = async (cadeiras, id_partido) => {
+    return pool('resultado')
+    .update('cadeiras', cadeiras)
+    .where({ id_partido })
 }
 
 module.exports = {
@@ -118,5 +122,6 @@ module.exports = {
     finalizarVotacaoQuery,
     atualizarNumeroDeCandidatosNaEleicaoQuery,
     atualizarPorcentagemDeVotosQuery,
-    definirDeputadoLider
+    definirDeputadoLider,
+    distribuirCadeirasQuery
 }
