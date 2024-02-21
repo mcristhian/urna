@@ -9,7 +9,13 @@ const cadastrarEleitor = async (req, res) => {
     const { id_eleicao, nome, email, senha, votou } = req.body
 
     try {
-        const finalizada = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+        const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
+
+        if (!eleicao) {
+            return res.status(400).json({ mensagem: 'Eleição não encontrada.' })
+        }
+
+        const { finalizada } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
 
         if (finalizada) {
             return res.status(400).json({ mensagem: 'Eleição finalizada.' })
@@ -19,12 +25,6 @@ const cadastrarEleitor = async (req, res) => {
 
         if (eleitorComMesmoEmail) {
             return res.status(400).json({ mensagem: 'Email indisponível.' })
-        }
-
-        const eleicao = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
-
-        if (!eleicao) {
-            return res.status(400).json({ mensagem: 'Eleição não encontrada.' })
         }
 
         const senhaCriptografada = await bcryptjs.hash(senha, 10)
