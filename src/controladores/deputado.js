@@ -1,7 +1,7 @@
 const { excluirDeputadoQuery } = require("../banco/delete")
 const { cadastrarDeputadoQuery } = require("../banco/insert")
 const { listarPartidoPorIdQuery, listarDeputadoPorIdQuery, encontrarDeputadoLiderQuery, listarDeputadosPorPartidoQuery } = require("../banco/select")
-const { resetarLideresQuery, atualizarDeputadoQuery, atualizarNumeroDeCandidatosNaEleicaoQuery, definirDeputadoLider } = require("../banco/update")
+const { resetarLideresQuery, atualizarDeputadoQuery, atualizarNumeroDeCandidatosNaEleicaoQuery, definirDeputadoLiderQuery } = require("../banco/update")
 
 const cadastrarDeputado = async (req, res) => {
     const { id_partido } = req.partido
@@ -33,7 +33,7 @@ const cadastrarDeputado = async (req, res) => {
 
         const numeroDeDeputados = await listarDeputadosPorPartidoQuery(id_partido)
         if (numeroDeDeputados.length === 1 && !lider) {
-            await definirDeputadoLider(id_deputado, id_partido)
+            await definirDeputadoLiderQuery(id_deputado, id_partido)
         }
 
         return res.status(200).json({ mensagem: 'Deputado cadastrado.'})
