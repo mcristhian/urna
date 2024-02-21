@@ -42,7 +42,7 @@ const votar = async (req, res) => {
             await finalizarVotacaoQuery(id_eleicao)
         }
 
-        await atualizarPorcentagemDeVotos(id_eleicao)
+        await atualizarResultadoDoPartido(id_eleicao)
 
         return res.status(200).json({ mensagem: 'Voto contabilizado.' })
     } catch (error) {
@@ -50,7 +50,7 @@ const votar = async (req, res) => {
     }
 }
 
-const atualizarPorcentagemDeVotos = async (id_eleicao) => {
+const atualizarResultadoDoPartido = async (id_eleicao) => {
     try {
         const resultados = await listarResultadoPorEleicaoQuery(id_eleicao)
         const { cadeiras } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
