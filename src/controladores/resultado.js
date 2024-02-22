@@ -1,5 +1,5 @@
 const { listarEleicaoPorIdQueryAlternativa, listarPartidoPorIdEEleicaoQuery, listarEleitoresPorEleicaoQuery, listarResultadoPorPartidoQuery, listarResultadoPorEleicaoQuery } = require("../banco/select")
-const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery, atualizarPorcentagemDeVotosQuery, distribuirCadeirasQuery } = require("../banco/update")
+const { registrarVotoQuery, contabilizarVotoQuery, contabilizarVotoNaEleicaoQuery, finalizarVotacaoQuery, atualizarPorcentagemDeVotosQuery, distribuirCadeirasQuery, atualizarPorcentagemDeCadeirasQuery } = require("../banco/update")
 
 const votar = async (req, res) => {
     const { senha: _, ...eleitor } = req.eleitor
@@ -64,9 +64,11 @@ const atualizarResultadoDoPartido = async (id_eleicao) => {
             let cadeirasDoPartido = cadeiras * porcentagem_votos
             cadeirasDoPartido = Math.round(cadeirasDoPartido)
             await distribuirCadeirasQuery(cadeirasDoPartido, resultado.id_partido)
-            //Consertar distribuição de vagas ímpares
-
+            //Consertar distribuição de vagas
             await atualizarPorcentagemDeVotosQuery(porcentagem_votos * 100, resultado.id_partido)
+
+            let porcentagemCadeiras = cadeirasDoPartido / cadeiras
+            await atualizarPorcentagemDeCadeirasQuery(porcentagemCadeiras * 100, resultado.id_partido)
         }
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno do servidor.' })

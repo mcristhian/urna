@@ -109,6 +109,12 @@ const distribuirCadeirasQuery = async (cadeiras, id_partido) => {
     .where({ id_partido })
 }
 
+const atualizarPorcentagemDeCadeirasQuery = async (porcentagem, id_partido) => {
+    return pool('resultado')
+    .update('porcentagem_cadeiras', porcentagem)
+    .where({ id_partido })
+}
+
 module.exports = {
     atualizarAdministradorQuery,
     atualizarEleicaoQuery,
@@ -123,5 +129,6 @@ module.exports = {
     atualizarNumeroDeCandidatosNaEleicaoQuery,
     atualizarPorcentagemDeVotosQuery,
     definirDeputadoLiderQuery,
-    distribuirCadeirasQuery
+    distribuirCadeirasQuery,
+    atualizarPorcentagemDeCadeirasQuery
 }
