@@ -13,14 +13,14 @@ const votar = async (req, res) => {
             return res.status(404).json({ mensagem: 'Eleição não encontrada.' })
         }
 
-        // let eleicaoFinalizada = eleicao.finalizada
-        // if (eleicaoFinalizada) {
-        //     return res.status(400).json({ mensagem: 'Eleição finalizada.' })
-        // }
+        let eleicaoFinalizada = eleicao.finalizada
+        if (eleicaoFinalizada) {
+            return res.status(400).json({ mensagem: 'Eleição finalizada.' })
+        }
 
-        // if (eleitor.votou === true) {
-        //     return res.status(400).json({ mensagem: 'Eleitor já registrou seu voto.' })
-        // }
+        if (eleitor.votou === true) {
+            return res.status(400).json({ mensagem: 'Eleitor já registrou seu voto.' })
+        }
 
         const partido = await listarPartidoPorIdEEleicaoQuery(voto, id_eleicao)
 
@@ -35,8 +35,7 @@ const votar = async (req, res) => {
         let numeroDeEleitores = await listarEleitoresPorEleicaoQuery(id_eleicao)
         numeroDeEleitores = numeroDeEleitores.length
         
-        let numeroDeVotos = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
-        numeroDeVotos = numeroDeVotos.votos
+        const { votos: numeroDeVotos } = await listarEleicaoPorIdQueryAlternativa(id_eleicao)
         
         if (numeroDeEleitores === numeroDeVotos) {
             await finalizarVotacaoQuery(id_eleicao)
