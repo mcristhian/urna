@@ -9,8 +9,7 @@ const esquemaCadastroEleicao = joi.object({
         'any.required': 'O campo cadeiras é obrigatório.',
         'number.empty': 'O campo cadeiras é obrigatório.',
         'number.base': 'O campo cadeiras só aceita números.',
-        'number.integer': 'O campo cadeiras só aceita números inteiros.',
-        'number.multiple': 'O cmapo cadeira só aceita números pares.'
+        'number.integer': 'O campo cadeiras só aceita números inteiros.'
     })
 })
 
